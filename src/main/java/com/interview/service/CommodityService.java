@@ -1,0 +1,126 @@
+package com.interview.service;
+
+import com.interview.beans.CommodityBean;
+import com.interview.beans.DiscountStrategyBean;
+import com.interview.diccount.DiscountACommodity;
+import com.interview.diccount.GiftACommodity;
+import com.interview.diccount.StrategyContext;
+import com.interview.entity.Commodity;
+import com.interview.entity.CommodityDiscountStrategy;
+import com.interview.entity.StrategyTypes;
+import com.interview.repository.CommodityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
+
+@Service
+@Transactional
+public  class CommodityService implements CommodityRepository {
+
+   @Autowired
+    private CommodityRepository commodityRepository;
+
+
+
+
+    @Override
+    public <S extends Commodity> S save(S s) {
+
+        return commodityRepository.save(s);
+    }
+
+    @Override
+    public <S extends Commodity> Iterable<S> saveAll(Iterable<S> iterable) {
+        return null;
+    }
+
+    @Override
+    public Optional<Commodity> findById(Long aLong) {
+        return commodityRepository.findById(aLong);
+    }
+
+
+
+    @Override
+    public boolean existsById(Long aLong) {
+        return false;
+    }
+
+    @Override
+    public List<Commodity> findAll() {
+        return commodityRepository.findAll();
+    }
+
+    @Override
+    public Commodity findByCommditiyTitle(String title) {
+        return commodityRepository.findByCommditiyTitle(title);
+    }
+
+    @Override
+    public List<Commodity> findByCommditiyTitleContaining(String serachTerm) {
+        return commodityRepository.findByCommditiyTitleContaining(serachTerm);
+    }
+
+    public CommodityBean calcualtCommdityDsicount(Commodity commodity) {
+        List<DiscountStrategyBean> strategydicuontMeets = new ArrayList<DiscountStrategyBean>();
+
+        Collection<CommodityDiscountStrategy> commodity_discountStrategies = commodity.getCommodity_discountStrategies();
+        Iterator<CommodityDiscountStrategy> itr = commodity_discountStrategies.iterator();
+        while(itr.hasNext()) {
+            CommodityDiscountStrategy strategy = itr.next();
+            if(strategy.getDiscountStrategy().getStrategyType().equalsIgnoreCase(StrategyTypes.DISCOUNT.toString())){
+                StrategyContext discountStrategy = new StrategyContext(new DiscountACommodity());
+                DiscountStrategyBean discountStrategyBean = discountStrategy.applyStrategy(commodity,strategy);
+                strategydicuontMeets.add(discountStrategyBean);
+            }
+            if(strategy.getDiscountStrategy().getStrategyType().equalsIgnoreCase(StrategyTypes.GIFT.toString())) {
+                StrategyContext giftStrategy = new StrategyContext(new GiftACommodity());
+                DiscountStrategyBean  giftStrategyBean  = giftStrategy.applyStrategy(commodity,strategy);
+                strategydicuontMeets.add(giftStrategyBean);
+            }
+        }
+
+        CommodityBean commodityBean = new CommodityBean(commodity.getCommditiyTitle(),commodity.getPrice() , commodity.getPriceCurrency(),  strategydicuontMeets) ;
+
+        return commodityBean ;
+    }
+
+
+    @Override
+    public Iterable<Commodity> findAllById(Iterable<Long> iterable) {
+        return null;
+    }
+
+    @Override
+    public long count() {
+        return 0;
+    }
+
+    @Override
+    public void deleteById(Long aLong) {
+        //check orders befor delete
+        commodityRepository.deleteById(aLong);
+    }
+
+    @Override
+    public void delete(Commodity commodity) {
+
+    }
+
+    @Override
+    public void deleteAllById(Iterable<? extends Long> iterable) {
+
+    }
+
+    @Override
+    public void deleteAll(Iterable<? extends Commodity> iterable) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
+}
