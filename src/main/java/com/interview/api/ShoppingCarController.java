@@ -1,9 +1,9 @@
 package com.interview.api;
 
+import com.interview.beans.cart.ShoppingCartBean;
 import com.interview.entity.Cart;
 import com.interview.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/cart")
+@RequestMapping("/carts")
 
 public class ShoppingCarController {
 
@@ -19,15 +19,29 @@ public class ShoppingCarController {
     private CartService cartService;
 
 
-    @GetMapping("/list")
-    public @ResponseBody Iterable<Cart> getSalesOrders() {
-        if(Objects.isNull(cartService)){
-            System.out.println("----------------------null");
-        }
-        Iterable<Cart> saleOrders = cartService.findAll();
-        return saleOrders;
+    @GetMapping("/")
+    public @ResponseBody Iterable<Cart> getCarts() {
+         Iterable<Cart> carts = cartService.findAll();
+        return carts;
     }
 
+    @RequestMapping(value = "/title/{title}", method = RequestMethod.GET)
+    @ResponseBody
+    public ShoppingCartBean getShoppingCartBean(@PathVariable String title) {
+        ShoppingCartBean shoppingCartBean = new ShoppingCartBean();
+        Optional<Cart> cart = cartService.findByTitle(title);
+        shoppingCartBean = cartService.getShoppingCartWithDsicounts(cart.get());
+        return shoppingCartBean;
+    }
+
+    @RequestMapping(value = "/find/title/{title}", method = RequestMethod.GET)
+    @ResponseBody
+    public Optional<Cart> getCartByTitle(@PathVariable String title) {
+        ShoppingCartBean shoppingCartBean = new ShoppingCartBean();
+        Optional<Cart> cart = cartService.findByTitle(title);
+
+        return cart;
+    }
 
     @RequestMapping(value = "/find/id/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -39,17 +53,6 @@ public class ShoppingCarController {
         return saleOrder;
     }
 
-//    @GetMapping( "/find/description/{description}")
-//    public Collection<ShopingCart> getSaleOrderByDescription(@PathVariable String description) {
-//        Collection<ShopingCart> saleOrders = shopingCartService.findByDescription(description);
-//        return saleOrders;
-//    }
-//
-//    @GetMapping( "/find/intext/{intext}")
-//    public Collection<ShopingCart> getSalesOrderContainByDescription(@PathVariable String intext) {
-//        Collection<ShopingCart> saleOrders = shopingCartService.findByDescriptionContaining(intext);
-//        return saleOrders;
-//    }
 
 //    @Transactional
 //    @RequestMapping(value = "/add/{orderId}/{commodityId}/{numberOfCommodity}", method = { RequestMethod.GET, RequestMethod.POST })

@@ -1,7 +1,7 @@
 package com.interview.api;
 
 import com.interview.entity.Commodity;
-import com.interview.beans.CommodityBean;
+import com.interview.beans.commodity.CommodityBean;
 import com.interview.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;

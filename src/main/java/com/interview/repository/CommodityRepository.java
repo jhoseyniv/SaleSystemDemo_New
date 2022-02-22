@@ -1,7 +1,6 @@
 package com.interview.repository;
 
 import com.interview.entity.Commodity;
-import com.interview.beans.CommodityBean;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

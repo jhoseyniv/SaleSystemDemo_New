@@ -9,6 +9,8 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import lombok.*;
+
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -36,6 +38,14 @@ public class DiscountStrategy implements Serializable {
     @OneToMany(mappedBy = "discountStrategy",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<CommodityDiscountStrategy> commodity_discountStrategies;
+
+    @OneToMany(mappedBy = "discountStrategy",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<CartDiscountStrategy> cartDiscountStrategies;
+
+    public List<CartDiscountStrategy> getCartDiscountStrategies() {
+        return cartDiscountStrategies;
+    }
 
     @DateTimeFormat(pattern = "dd-mmm-yyyy hh:mm:ss.s")
     private ZonedDateTime startDate;

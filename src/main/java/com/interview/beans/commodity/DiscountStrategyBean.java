@@ -1,4 +1,4 @@
-package com.interview.beans;
+package com.interview.beans.commodity;
 
 import org.springframework.stereotype.Component;
 

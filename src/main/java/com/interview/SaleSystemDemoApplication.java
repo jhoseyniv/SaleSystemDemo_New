@@ -32,6 +32,8 @@ public class SaleSystemDemoApplication {
 	private PriceService priceService;
 
 	@Autowired
+	private CartStatusService cartStatusService;
+	@Autowired
 	private CartService cartService;
 
 	@Autowired
@@ -63,6 +65,11 @@ public class SaleSystemDemoApplication {
 
 			ZonedDateTime  createdDate= ZonedDateTime.now();
 
+			CartStatus cartStatusDraft = new CartStatus("Draft");
+			CartStatus cartStatusFinal = new CartStatus("Final");
+			cartStatusService.save(cartStatusDraft);
+			cartStatusService.save(cartStatusFinal);
+
 
 			Customer ali = new Customer("ali","saeedi","ali_2000","12345",null);
 			Customer reza = new Customer("reza","saeedi","reze_2020","12345",null);
@@ -80,20 +87,8 @@ public class SaleSystemDemoApplication {
 			commodityService.save(pants);
 			commodityService.save(shoe);
 
-			Price priceHat1= new Price(8d,1,"cron",false,hat);
-			Price priceHat2= new Price(10d,1,"cron",false,hat);
 
-			Price priceShirt= new Price(15d,1,"cron",false,shirt);
-			Price pricePants= new Price(30d,1,"cron",false,pants);
-			Price priceShoe= new Price(30d,1,"cron",false,shoe);
-
-			priceService.save(priceHat1);
-			priceService.save(priceHat2);
-			priceService.save(priceShirt);
-			priceService.save(pricePants);
-			priceService.save(priceShoe);
-
-			Cart shopingCartAli= new Cart(ali,"ALi Ordered 2 hats",createdDate,null);
+			Cart shopingCartAli= new Cart(ali,"cart100","ALi Ordered 2 hats",createdDate,null, cartStatusDraft,null);
 			cartService.save(shopingCartAli);
 
 			CartCommodity hat_Item= new CartCommodity(hat,shopingCartAli,2L);
@@ -103,7 +98,7 @@ public class SaleSystemDemoApplication {
 			cartCommodityService.save(shoe_Item);
 
 
-			Cart orderReza= new Cart(reza,"Reza Ordered a Shirt and 2 pants",createdDate,null);
+			Cart orderReza= new Cart(reza,"cart200","Reza Ordered a Shirt and 2 pants",createdDate,null, cartStatusDraft,null);
 			cartService.save(orderReza);
 
 			CartCommodity shirt_Item= new CartCommodity(shirt,orderReza,1L);

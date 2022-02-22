@@ -1,14 +1,18 @@
 package com.interview.service;
 
+import com.interview.beans.cart.CartCommodityBean;
+import com.interview.beans.cart.ShoppingCartBean;
 import com.interview.entity.Cart;
-import com.interview.repository.CartCommodityRepository;
+import com.interview.entity.CartCommodity;
 import com.interview.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -49,10 +53,29 @@ public  class CartService implements CartRepository {
         return Optional.empty();
     }
 
+    public  List<CartCommodityBean> getCartCommodities(Cart cart) {
+        List<CartCommodityBean> cartCommodityBeanList = new ArrayList<CartCommodityBean>();
+        List<CartCommodity> cartCommodities = cart.getCartCommodities();
+        for(CartCommodity cartCommodity : cartCommodities ){
+            System.out.println("------->"+ cartCommodity.getNumberOfCommodityOrdered());
+            CartCommodityBean cartCommodityBean = CartCommodityBean.getInstanceFromEntity(cartCommodity);
+            cartCommodityBeanList.add(cartCommodityBean);
+        }
 
-    @Override
-    public Cart findSaleOrderById(Long aLong) {
-        return cartRepository.findSaleOrderById(aLong);
+      return cartCommodityBeanList;
+    }
+
+    public ShoppingCartBean getShoppingCartWithDsicounts(Cart cart) {
+        List<CartCommodityBean> cartCommodityBeanList = getCartCommodities(cart);
+        ShoppingCartBean shoppingCartBean= new ShoppingCartBean(cart.getTitle(),cart.getDescription(),cart.getCreatedDate(),cart.getStatus().getTitle(),cartCommodityBeanList);
+//        List<CartCommodity> shoppingItems = cart.getCartCommodities();
+//        String  commodityName="hat";
+//        Optional<CartCommodity> commodity= shoppingItems.stream()
+//                .filter(x -> commodityName.equals(x.getCommodity().getCommditiyTitle()))
+//                .findAny();
+//        System.out.println("Commodity----->"+commodity.get().getNumberOfCommodityOrdered());
+
+     return shoppingCartBean;
     }
 
     @Override
@@ -64,6 +87,11 @@ public  class CartService implements CartRepository {
     public Collection<Cart> findAll() {
 
         return cartRepository.findAll();
+    }
+
+    @Override
+    public Optional<Cart> findByTitle(String title) {
+        return cartRepository.findByTitle(title);
     }
 
     @Override

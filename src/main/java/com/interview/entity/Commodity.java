@@ -46,6 +46,8 @@ public class Commodity implements Serializable {
         return cartCommodities;
     }
 
+
+
     @OneToMany(mappedBy = "price", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Collection<Price> prices;
     public Collection<Price> getPrices() {

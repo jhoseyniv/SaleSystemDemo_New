@@ -6,10 +6,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import lombok.*;
 
@@ -26,8 +28,15 @@ public class Cart implements Serializable {
 
     @NotEmpty(message = "{order_description.notempty}")
     @Size(min = 5, message = "{order_description.length}")
+    private String title;
+
+    @NotEmpty(message = "{order_description.notempty}")
+    @Size(min = 5, message = "{order_description.length}")
     private String description;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "cartstatus_id", nullable = false)
+    private CartStatus status;
 
     @DateTimeFormat(pattern = "dd-mmm-yyyy hh:mm:ss.s")
     private ZonedDateTime createdDate;
@@ -38,17 +47,26 @@ public class Cart implements Serializable {
     private Customer customer;
 
     @OneToMany(mappedBy = "cart",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Collection<CartCommodity> commodity_orders;
-    public Collection<CartCommodity> getCommodity_orders() {
-
-        return commodity_orders;
+    private List<CartCommodity> cartCommodities;
+    public List<CartCommodity> getCartCommodities() {
+        return cartCommodities;
     }
 
-    public Cart(Customer customer, String description, ZonedDateTime createdDate,
-                Set<CartCommodity> commodity_orders) {
+    @OneToMany(mappedBy = "cart",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<CartDiscountStrategy>  cartDiscountStrategies;
+
+    public List<CartDiscountStrategy> getCartDiscountStrategies() {
+        return cartDiscountStrategies;
+    }
+
+    public Cart(Customer customer, String title, String description, ZonedDateTime createdDate,
+                List<CartCommodity> cartCommodities, CartStatus status,List<CartDiscountStrategy>  cartDiscountStrategies) {
+        this.title = title;
         this.description = description;
         this.createdDate = createdDate;
-        this.commodity_orders = commodity_orders;
+        this.status = status;
         this.customer = customer;
+        this.cartCommodities = cartCommodities;
+        this.cartDiscountStrategies = cartDiscountStrategies;
     }
 }

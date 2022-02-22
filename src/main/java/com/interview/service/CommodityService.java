@@ -1,7 +1,7 @@
 package com.interview.service;
 
-import com.interview.beans.CommodityBean;
-import com.interview.beans.DiscountStrategyBean;
+import com.interview.beans.commodity.CommodityBean;
+import com.interview.beans.commodity.DiscountStrategyBean;
 import com.interview.diccount.DiscountACommodity;
 import com.interview.diccount.GiftACommodity;
 import com.interview.diccount.StrategyContext;
