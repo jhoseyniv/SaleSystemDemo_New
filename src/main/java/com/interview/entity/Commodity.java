@@ -10,7 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Set;
+
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -41,10 +41,9 @@ public class Commodity implements Serializable {
 
     @OneToMany(mappedBy = "commodity", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
-
-     private Collection<ShopingCartCommodity> commodity_orders;
-     public Collection<ShopingCartCommodity> getCommodity_orders() {
-        return commodity_orders;
+     private Collection<CartCommodity> cartCommodities;
+    public Collection<CartCommodity> getCartCommodities() {
+        return cartCommodities;
     }
 
     @OneToMany(mappedBy = "price", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -54,12 +53,12 @@ public class Commodity implements Serializable {
     }
 
     public Commodity(String commditiyTitle, double price, String priceCurrency, Collection<CommodityDiscountStrategy> commodity_discountStrategies,
-                     Collection<ShopingCartCommodity> commodity_orders, Collection<Price> prices) {
+                     Collection<CartCommodity> cartCommodities, Collection<Price> prices) {
         this.commditiyTitle = commditiyTitle;
         this.price = price;
         this.priceCurrency = priceCurrency;
         this.commodity_discountStrategies = commodity_discountStrategies;
-        this.commodity_orders = commodity_orders;
+        this.cartCommodities = cartCommodities;
         this.prices = prices;
     }
 }

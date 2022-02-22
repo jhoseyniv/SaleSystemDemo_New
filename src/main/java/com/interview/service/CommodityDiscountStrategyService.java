@@ -2,6 +2,7 @@ package com.interview.service;
 
 import com.interview.entity.CommodityDiscountStrategy;
 import com.interview.repository.CommodityDiscountStrategyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,11 +12,12 @@ import java.util.Optional;
 @Transactional
 public class CommodityDiscountStrategyService implements CommodityDiscountStrategyRepository {
 
-    CommodityDiscountStrategyRepository commodity_DiscountStrategyRepository;
+    @Autowired
+    CommodityDiscountStrategyRepository commodityDiscountStrategyRepository;
 
     @Override
     public <S extends CommodityDiscountStrategy> S save(S s) {
-        return null;
+        return commodityDiscountStrategyRepository.save(s);
     }
 
     @Override
@@ -36,7 +38,7 @@ public class CommodityDiscountStrategyService implements CommodityDiscountStrate
     @Override
     public Iterable<CommodityDiscountStrategy> findAll() {
 
-        return commodity_DiscountStrategyRepository.findAll();
+        return commodityDiscountStrategyRepository.findAll();
     }
 
     @Override

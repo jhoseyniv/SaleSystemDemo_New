@@ -1,5 +1,8 @@
 package com.interview.beans;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class DiscountStrategyBean {
     private String strategyTitle;
     private String strategyMessage;

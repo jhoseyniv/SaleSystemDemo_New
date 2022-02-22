@@ -17,7 +17,7 @@ import lombok.*;
 @Entity
 @Data
 @NoArgsConstructor
-public class ShopingCart implements Serializable {
+public class Cart implements Serializable {
     static final long serialVersionUID = 1L; //assign a long value
 
     @Id
@@ -38,16 +38,17 @@ public class ShopingCart implements Serializable {
     private Customer customer;
 
     @OneToMany(mappedBy = "cart",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Collection<ShopingCartCommodity> cartCommodities;
-    public Collection<ShopingCartCommodity> getCartCommodities() {
-        return cartCommodities;
+    private Collection<CartCommodity> commodity_orders;
+    public Collection<CartCommodity> getCommodity_orders() {
+
+        return commodity_orders;
     }
 
-    public ShopingCart(Customer customer, String description, ZonedDateTime createdDate,
-                       Set<ShopingCartCommodity> cartCommodities) {
+    public Cart(Customer customer, String description, ZonedDateTime createdDate,
+                Set<CartCommodity> commodity_orders) {
         this.description = description;
         this.createdDate = createdDate;
-        this.cartCommodities = cartCommodities;
+        this.commodity_orders = commodity_orders;
         this.customer = customer;
     }
 }

@@ -37,14 +37,14 @@ public class Customer implements Serializable {
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @JsonIgnore
-    private Set<ShopingCart> orders;
+    private Set<Cart> carts;
 
 
-    public Customer(String firstName, String lastName, String username, String password,Set<ShopingCart> orders) {
+    public Customer(String firstName, String lastName, String username, String password,Set<Cart> carts) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
-        this.orders = orders;
+        this.carts = carts;
     }
 }

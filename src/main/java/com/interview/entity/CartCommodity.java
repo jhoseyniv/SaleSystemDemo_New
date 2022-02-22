@@ -12,7 +12,7 @@ import lombok.*;
 @Entity
 @Data
 @NoArgsConstructor
-public class ShopingCartCommodity implements Serializable {
+public class CartCommodity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,12 +26,12 @@ public class ShopingCartCommodity implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
     @JsonIgnore
-    private ShopingCart cart;
+    private Cart cart;
 
     @NotNull(message = "{number__of_commodity_orderd.notempty}")
     private Long numberOfCommodityOrdered;
 
-    public ShopingCartCommodity(Commodity commodity, ShopingCart cart, Long numberOfCommodityOrdered) {
+    public CartCommodity(Commodity commodity, Cart cart, Long numberOfCommodityOrdered) {
         this.commodity = commodity;
         this.cart = cart;
         this.numberOfCommodityOrdered = numberOfCommodityOrdered;

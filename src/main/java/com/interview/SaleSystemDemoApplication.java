@@ -1,13 +1,10 @@
 package com.interview;
 
-import com.interview.service.CommodityService;
-import com.interview.service.PriceService;
+import com.interview.service.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.interview.entity.*;
 import com.interview.repository.*;
-import com.interview.service.ShopingCartCommodityService;
-import com.interview.service.ShopingCartService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +15,7 @@ import org.springframework.core.env.Environment;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+
 @SpringBootApplication
 public class SaleSystemDemoApplication {
 
@@ -25,7 +23,7 @@ public class SaleSystemDemoApplication {
 		SpringApplication.run(SaleSystemDemoApplication.class, args);
 	}
 	@Autowired
-	private DiscountStrategyRepository discountStrategyRepository;
+	private DiscountStrategyService discountStrategyService;
 
 	@Autowired
 	private CommodityService commodityService;
@@ -34,13 +32,13 @@ public class SaleSystemDemoApplication {
 	private PriceService priceService;
 
 	@Autowired
-	private ShopingCartService shopingCartService;
+	private CartService cartService;
 
 	@Autowired
-	private CommodityDiscountStrategyRepository commodityDiscountStrategyRepository;
+	private CommodityDiscountStrategyService commodityDiscountStrategyService;
 
 	@Autowired
-	private ShopingCartCommodityService shopingCartCommodityService;
+	private CartCommodityService cartCommodityService;
 
 	@Autowired
 	private CustomerRepository customerRepository;
@@ -64,11 +62,6 @@ public class SaleSystemDemoApplication {
 			ZonedDateTime endDate = ZonedDateTime.of(2022, 3, 30, 23, 45, 59, 1234, zoneId);
 
 			ZonedDateTime  createdDate= ZonedDateTime.now();
-
-
-
-
-
 
 
 			Customer ali = new Customer("ali","saeedi","ali_2000","12345",null);
@@ -100,44 +93,46 @@ public class SaleSystemDemoApplication {
 			priceService.save(pricePants);
 			priceService.save(priceShoe);
 
-			ShopingCart shopingCartAli= new ShopingCart(ali,"ALi Ordered 2 hats",createdDate,null);
-			shopingCartService.save(shopingCartAli);
+			Cart shopingCartAli= new Cart(ali,"ALi Ordered 2 hats",createdDate,null);
+			cartService.save(shopingCartAli);
 
-			ShopingCartCommodity hat_Item= new ShopingCartCommodity(hat,shopingCartAli,2L);
-			shopingCartCommodityService.save(hat_Item);
+			CartCommodity hat_Item= new CartCommodity(hat,shopingCartAli,2L);
+			cartCommodityService.save(hat_Item);
 
-			ShopingCartCommodity shoe_Item= new ShopingCartCommodity(shoe,shopingCartAli,1L);
-			shopingCartCommodityService.save(shoe_Item);
+			CartCommodity shoe_Item= new CartCommodity(shoe,shopingCartAli,1L);
+			cartCommodityService.save(shoe_Item);
 
 
-			ShopingCart orderReza= new ShopingCart(reza,"Reza Ordered a Shirt and 2 pants",createdDate,null);
-			shopingCartService.save(orderReza);
+			Cart orderReza= new Cart(reza,"Reza Ordered a Shirt and 2 pants",createdDate,null);
+			cartService.save(orderReza);
 
-			ShopingCartCommodity shirt_order= new ShopingCartCommodity(shirt,orderReza,1L);
-			shopingCartCommodityService.save(shirt_order);
+			CartCommodity shirt_Item= new CartCommodity(shirt,orderReza,1L);
+			cartCommodityService.save(shirt_Item);
 
-			ShopingCartCommodity pants_order= new ShopingCartCommodity(pants,orderReza,2L);
-			shopingCartCommodityService.save(pants_order);
+			CartCommodity pants_Item= new CartCommodity(pants,orderReza,2L);
+			cartCommodityService.save(pants_Item);
 
 			DiscountStrategy giftAHatStrategy = new DiscountStrategy("Gift a Hat to client if buy a shirt and a pants","GIFT",1L,null,startDate,endDate);
 			DiscountStrategy giftAHatStrategyIfFiveHat = new DiscountStrategy("Gift 2 Hats to client if buy a 5 hat ","GIFT",2L,null,startDate,endDate);
 			DiscountStrategy discountOnAHatStrategy = new DiscountStrategy("DisCount 20% in a Hat at this time","DISCOUNT",20L,null,startDate,endDate);
-			discountStrategyRepository.save(giftAHatStrategy);
-			discountStrategyRepository.save(discountOnAHatStrategy);
-			discountStrategyRepository.save(giftAHatStrategyIfFiveHat);
+			discountStrategyService.save(giftAHatStrategy);
+			discountStrategyService.save(discountOnAHatStrategy);
+			discountStrategyService.save(giftAHatStrategyIfFiveHat);
 
 			CommodityDiscountStrategy hatDiscountByHatStrategy= new CommodityDiscountStrategy(hat,discountOnAHatStrategy,1L);
 			CommodityDiscountStrategy hatGfitByHatStrategy= new CommodityDiscountStrategy(hat,giftAHatStrategyIfFiveHat,5L);
 
-			commodityDiscountStrategyRepository.save(hatDiscountByHatStrategy);
-			commodityDiscountStrategyRepository.save(hatGfitByHatStrategy);
+			commodityDiscountStrategyService.save(hatDiscountByHatStrategy);
+			commodityDiscountStrategyService.save(hatGfitByHatStrategy);
 
 			CommodityDiscountStrategy shirtDiscountByGiftHatStrategy= new CommodityDiscountStrategy(shirt,giftAHatStrategy,2L);
 			CommodityDiscountStrategy pantsDiscountByGiftHatStrategy= new CommodityDiscountStrategy(pants,giftAHatStrategy,1L);
-			commodityDiscountStrategyRepository.save(shirtDiscountByGiftHatStrategy);
-			commodityDiscountStrategyRepository.save(pantsDiscountByGiftHatStrategy);
+			commodityDiscountStrategyService.save(shirtDiscountByGiftHatStrategy);
+			commodityDiscountStrategyService.save(pantsDiscountByGiftHatStrategy);
 
 
 		};
+
+
 	}
-		}
+}

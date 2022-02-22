@@ -19,7 +19,7 @@ import java.util.*;
 @Transactional
 public  class CommodityService implements CommodityRepository {
 
-   @Autowired
+    @Autowired
     private CommodityRepository commodityRepository;
 
 
@@ -63,7 +63,7 @@ public  class CommodityService implements CommodityRepository {
         return commodityRepository.findByCommditiyTitleContaining(serachTerm);
     }
 
-    public CommodityBean calcualtCommdityDsicount(Commodity commodity) {
+    public CommodityBean calcualtCommdityDsicounts(Commodity commodity) {
         List<DiscountStrategyBean> strategydicuontMeets = new ArrayList<DiscountStrategyBean>();
 
         Collection<CommodityDiscountStrategy> commodity_discountStrategies = commodity.getCommodity_discountStrategies();

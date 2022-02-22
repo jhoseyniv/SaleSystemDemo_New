@@ -1,7 +1,7 @@
 package com.interview.service;
 
-import com.interview.entity.ShopingCartCommodity;
-import com.interview.repository.ShopingCartCommodityRepository;
+import com.interview.entity.CartCommodity;
+import com.interview.repository.CartCommodityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,25 +10,26 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class ShopingCartCommodityService implements ShopingCartCommodityRepository {
+public class CartCommodityService implements CartCommodityRepository {
 
     @Autowired
-    ShopingCartCommodityRepository shopingCartCommodityRepository;
+    CartCommodityRepository  cartCommodityRepository;
 
-    public <S extends ShopingCartCommodity> S save(S s) {
+    @Override
+    public <S extends CartCommodity> S save(S s) {
         if(true){ // if s already in basket... order basket only will be upadate...
-            return shopingCartCommodityRepository.save(s) ;
+            return cartCommodityRepository.save(s) ;
         }
-        return shopingCartCommodityRepository.save(s);
+        return cartCommodityRepository.save(s);
     }
 
     @Override
-    public <S extends ShopingCartCommodity> Iterable<S> saveAll(Iterable<S> iterable) {
+    public <S extends CartCommodity> Iterable<S> saveAll(Iterable<S> iterable) {
         return null;
     }
 
     @Override
-    public Optional<ShopingCartCommodity> findById(Long aLong) {
+    public Optional<CartCommodity> findById(Long aLong) {
         return Optional.empty();
     }
 
@@ -38,13 +39,13 @@ public class ShopingCartCommodityService implements ShopingCartCommodityReposito
     }
 
     @Override
-    public Iterable<ShopingCartCommodity> findAll() {
+    public Iterable<CartCommodity> findAll() {
 
-        return shopingCartCommodityRepository.findAll();
+        return cartCommodityRepository.findAll();
     }
 
     @Override
-    public Iterable<ShopingCartCommodity> findAllById(Iterable<Long> iterable) {
+    public Iterable<CartCommodity> findAllById(Iterable<Long> iterable) {
         return null;
     }
 
@@ -59,7 +60,7 @@ public class ShopingCartCommodityService implements ShopingCartCommodityReposito
     }
 
     @Override
-    public void delete(ShopingCartCommodity commodity_order) {
+    public void delete(CartCommodity commodity_order) {
 
     }
 
@@ -69,7 +70,7 @@ public class ShopingCartCommodityService implements ShopingCartCommodityReposito
     }
 
     @Override
-    public void deleteAll(Iterable<? extends ShopingCartCommodity> iterable) {
+    public void deleteAll(Iterable<? extends CartCommodity> iterable) {
 
     }
 

@@ -14,7 +14,6 @@ import lombok.*;
 @Entity
 @Data
 @NoArgsConstructor
-
 public class Price implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

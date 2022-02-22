@@ -1,9 +1,11 @@
 package com.interview.beans;
 
 import com.interview.diccount.StrategyContext;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class CommodityBean {
     private Long id;
     private String commditiyTitle;

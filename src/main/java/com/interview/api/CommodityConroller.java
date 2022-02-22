@@ -13,17 +13,17 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/commodity")
-public class CommodityAPI {
+public class CommodityConroller {
 
     @Autowired
     private CommodityService commodityService;
+
 
     @GetMapping("/list")
     public List<Commodity> getCommodities(Model model) {
         List<Commodity> commodities = commodityService.findAll();
         return commodities;
     }
-
 
     @RequestMapping(value = "/find/id/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -36,7 +36,7 @@ public class CommodityAPI {
     @GetMapping( "/find/title/{title}")
     public CommodityBean getCommodityByTitle(@PathVariable String title) {
         Commodity commodity = commodityService.findByCommditiyTitle(title);
-        CommodityBean commodityBean= commodityService.calcualtCommdityDsicount(commodity);
+        CommodityBean commodityBean= commodityService.calcualtCommdityDsicounts(commodity);
         return commodityBean;
     }
 

@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public  class DoscountStrategyService implements DiscountStrategyRepository {
+public  class DiscountStrategyService implements DiscountStrategyRepository {
     @Autowired
     private DiscountStrategyRepository discountStrategyRepository;
 
