@@ -39,10 +39,6 @@ public class ShoppingCarController {
     @ResponseBody
     public CartDiscountSheetBean getCartDiscountSheettBean(@PathVariable String title) {
         CartDiscountSheetBean cartDiscountSheetBean = new CartDiscountSheetBean();
-        if(Objects.isNull(cartService)) {
-            System.out.println("------------cartService-------------------null");
-
-        }
         Optional<Cart> cart = cartService.findByTitle(title);
         cartDiscountSheetBean = cartService.getCartDiscountSheetFromCart(cart.get());
         return cartDiscountSheetBean;

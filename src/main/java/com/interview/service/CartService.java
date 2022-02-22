@@ -68,9 +68,6 @@ public  class CartService implements CartRepository {
         List<CartCommodityBean> cartCommodityBeanList = getCartCommodities(cart);
         CartDiscountSheetBean discountSheet = new CartDiscountSheetBean();
         discountSheet = getCartDiscountSheetFromCart(cart);
-        if(Objects.isNull(discountSheet)) {
-            System.out.println("---------discountSheet is null----------");
-        }
         List<CartDisountBean>  cartDisountBeanList = getCartDiscounts(discountSheet);
 
         ShoppingCartBean shoppingCartBean= new ShoppingCartBean(cart.getTitle(),cart.getDescription(),
@@ -92,10 +89,6 @@ public  class CartService implements CartRepository {
 
     public CartDiscountSheetBean getCartDiscountSheetFromCart(Cart cart) {
         CartDiscountSheetBean cartDiscountSheet = new CartDiscountSheetBean();
-        if(Objects.isNull(cart)) {
-            System.out.println("---------cart is null----------");
-        }
-
         List<CartCommodityDiscountItemBean>  cartCommodityDiscountItems = new ArrayList<CartCommodityDiscountItemBean>();
         cartDiscountSheet.setTitle(cart.getTitle());
         cartDiscountSheet.setCreatedDate(cart.getCreatedDate());
@@ -112,20 +105,20 @@ public  class CartService implements CartRepository {
          for(int i=0 ; i<cartCommodities.size(); i++ ) {
              CartCommodity cartCommodity = cartCommodities.get(i);
              Long id = cartCommodity.getCommodity().getId();
-             Optional<Commodity> commodity =  commodityRepository.findById(id);
-
-              if(commodity.get().getCommodityDiscountStrategies() != null ) {
-                  System.out.println("nulll------re--------------------------");
-              }
-             System.out.println("Strategy--------------------------------" + commodity.get().getCommodityDiscountStrategies());
-             CartCommodityDiscountItemBean cartCommodityDiscountItem = CartCommodityDiscountItemBean.getInstanceFromEntity(cartCommodity,commodity.get().getCommodityDiscountStrategies());
-             cartCommodityDiscountItems.add(cartCommodityDiscountItem);
+             Optional<Commodity> commodity = commodityRepository.findById(id);
+             if (commodity.isPresent()){
+                 Commodity com = commodity.get();
+                  com.getCommodityDiscountStrategies();
+                 CartCommodityDiscountItemBean cartCommodityDiscountItem = CartCommodityDiscountItemBean.getInstanceFromEntity(cartCommodity, commodity.get().getCommodityDiscountStrategies());
+                 cartCommodityDiscountItems.add(cartCommodityDiscountItem);
+             }
          }
           return  cartCommodityDiscountItems;
      }
 
     public  List<CartDisountBean> getCartDiscounts(CartDiscountSheetBean discountSheet) {
         List<CartDisountBean> cartDisountBeanList = new ArrayList<CartDisountBean>();
+
         return cartDisountBeanList;
     }
 

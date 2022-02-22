@@ -107,6 +107,12 @@ public class SaleSystemDemoApplication {
 			CartCommodity pants_Item= new CartCommodity(pants,orderReza,2L);
 			cartCommodityService.save(pants_Item);
 
+			CartCommodity shoe_Item2= new CartCommodity(shoe,orderReza,6L);
+			cartCommodityService.save(shoe_Item2);
+
+			CartCommodity hat_Item2= new CartCommodity(hat,orderReza,10L);
+			cartCommodityService.save(hat_Item2);
+
 			DiscountStrategy giftAHatStrategy = new DiscountStrategy("Gift a Hat to client if buy a shirt and a pants","GIFT",1L,null,startDate,endDate);
 			DiscountStrategy giftAHatStrategyIfFiveHat = new DiscountStrategy("Gift 2 Hats to client if buy a 5 hat ","GIFT",2L,null,startDate,endDate);
 			DiscountStrategy discountOnAHatStrategy = new DiscountStrategy("DisCount 20% in a Hat at this time","DISCOUNT",20L,null,startDate,endDate);

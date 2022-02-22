@@ -18,6 +18,7 @@ public class CartCommodityDiscountItemBean {
     private String strategyTitle;
     private String strategyType;
     private Long   strategyAchivement;
+    private Long   minNumberOfCommdityMeetDiscount;
 
     public String getCommditiyTitle() {
         return commditiyTitle;
@@ -83,12 +84,20 @@ public class CartCommodityDiscountItemBean {
         this.strategyAchivement = strategyAchivement;
     }
 
+    public Long getMinNumberOfCommdityMeetDiscount() {
+        return minNumberOfCommdityMeetDiscount;
+    }
+
+    public void setMinNumberOfCommdityMeetDiscount(Long minNumberOfCommdityMeetDiscount) {
+        this.minNumberOfCommdityMeetDiscount = minNumberOfCommdityMeetDiscount;
+    }
+
     public CartCommodityDiscountItemBean() {
     }
 
     public CartCommodityDiscountItemBean(String commditiyTitle, double originalPrice, String priceCurrency,
                                          double numberOfCommodityOrdered, double totalPriceWithoutDiscount,
-                                         String strategyTitle, String strategyType, Long strategyAchivement) {
+                                         String strategyTitle, String strategyType, Long strategyAchivement,Long minNumberOfCommdityMeetDiscount) {
         this.commditiyTitle = commditiyTitle;
         this.originalPrice = originalPrice;
         this.priceCurrency = priceCurrency;
@@ -97,11 +106,13 @@ public class CartCommodityDiscountItemBean {
         this.strategyTitle = strategyTitle;
         this.strategyType = strategyType;
         this.strategyAchivement = strategyAchivement;
+        this.minNumberOfCommdityMeetDiscount = minNumberOfCommdityMeetDiscount;
     }
     public static CartCommodityDiscountItemBean getInstanceFromEntity(CartCommodity cartCommodity, List<CommodityDiscountStrategy> commodityDiscountStrategies) {
         String strategyTitle = "";
         String  strategyType = "";
         Long  strategyAchivement = 0L;
+        Long  minNumberOfCommdityMeetDiscount = 1L;
 
         String commditiyTitle = cartCommodity.getCommodity().getCommditiyTitle();
             double originalPrice = cartCommodity.getCommodity().getPrice();
@@ -111,9 +122,10 @@ public class CartCommodityDiscountItemBean {
         if(commodityDiscountStrategies.size() > 0 ) {
              strategyTitle = commodityDiscountStrategies.get(0).getDiscountStrategy().getStrategyTitle();
              strategyType = commodityDiscountStrategies.get(0).getDiscountStrategy().getStrategyType();
-            strategyAchivement = commodityDiscountStrategies.get(0).getDiscountStrategy().getStrategyAchivement();
+             strategyAchivement = commodityDiscountStrategies.get(0).getDiscountStrategy().getStrategyAchivement();
+             minNumberOfCommdityMeetDiscount = commodityDiscountStrategies.get(0).getMinNumberOfCommdityMeetDiscount();
         }
-            return  new CartCommodityDiscountItemBean(commditiyTitle,originalPrice,priceCurrency,numberOfCommodityOrdered,totalPriceWithoutDiscount,strategyTitle,strategyType,strategyAchivement);
+            return  new CartCommodityDiscountItemBean(commditiyTitle,originalPrice,priceCurrency,numberOfCommodityOrdered,totalPriceWithoutDiscount,strategyTitle,strategyType,strategyAchivement,minNumberOfCommdityMeetDiscount);
         }
 
     }
