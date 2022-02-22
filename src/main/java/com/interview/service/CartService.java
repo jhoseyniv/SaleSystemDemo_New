@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -107,8 +108,6 @@ public  class CartService implements CartRepository {
              Long id = cartCommodity.getCommodity().getId();
              Optional<Commodity> commodity = commodityRepository.findById(id);
              if (commodity.isPresent()){
-                 Commodity com = commodity.get();
-                  com.getCommodityDiscountStrategies();
                  CartCommodityDiscountItemBean cartCommodityDiscountItem = CartCommodityDiscountItemBean.getInstanceFromEntity(cartCommodity, commodity.get().getCommodityDiscountStrategies());
                  cartCommodityDiscountItems.add(cartCommodityDiscountItem);
              }
@@ -118,7 +117,9 @@ public  class CartService implements CartRepository {
 
     public  List<CartDisountBean> getCartDiscounts(CartDiscountSheetBean discountSheet) {
         List<CartDisountBean> cartDisountBeanList = new ArrayList<CartDisountBean>();
-
+         List<CartCommodityDiscountItemBean> cartCommodityDiscountItems = discountSheet.getCartCommodityDiscountItems();
+        List<CartCommodityDiscountItemBean> commodityItemsMeetStrategies = cartCommodityDiscountItems.stream().
+                        filter(commdityItem -> commdityItem.getMinNumberOfCommdityMeetDiscount() >= commdityItem.getNumberOfCommodityOrdered()).toList();
         return cartDisountBeanList;
     }
 
