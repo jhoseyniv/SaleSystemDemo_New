@@ -11,6 +11,8 @@ public class ShoppingCartBean {
     private String description;
     private ZonedDateTime createdDate;
     private List<CartCommodityBean> cartCommodityBeanList;
+    private List<CartDisountBean> cartDisountBeanList;
+
     private String status;
 
     public List<CartCommodityBean> getCartCommodityBeanList() {
@@ -56,11 +58,21 @@ public class ShoppingCartBean {
         this.status = status;
     }
 
-    public ShoppingCartBean(String title, String description, ZonedDateTime createdDate,String status, List<CartCommodityBean> cartCommodityBeanList ) {
+    public List<CartDisountBean> getCartDisountBeanList() {
+        return cartDisountBeanList;
+    }
+
+    public void setCartDisountBeanList(List<CartDisountBean> cartDisountBeanList) {
+        this.cartDisountBeanList = cartDisountBeanList;
+    }
+
+    public ShoppingCartBean(String title, String description, ZonedDateTime createdDate, String status, List<CartCommodityBean> cartCommodityBeanList,List<CartDisountBean> cartDisountBeanList ) {
         this.title = title;
         this.description = description;
         this.createdDate = createdDate;
         this.status = status;
         this.cartCommodityBeanList = cartCommodityBeanList;
+        this.cartDisountBeanList = cartDisountBeanList;
     }
+
 }

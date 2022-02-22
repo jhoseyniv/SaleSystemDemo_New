@@ -1,7 +1,9 @@
 package com.interview.service;
 
 import com.interview.beans.cart.CartCommodityBean;
+import com.interview.beans.cart.CartDisountBean;
 import com.interview.beans.cart.ShoppingCartBean;
+import com.interview.beans.discount.CartDiscountSheet;
 import com.interview.entity.Cart;
 import com.interview.entity.CartCommodity;
 import com.interview.repository.CartRepository;
@@ -53,29 +55,39 @@ public  class CartService implements CartRepository {
         return Optional.empty();
     }
 
+
+    public ShoppingCartBean getShoppingCartWithDsicounts(Cart cart) {
+        List<CartCommodityBean> cartCommodityBeanList = getCartCommodities(cart);
+        CartDiscountSheet discountSheet = new CartDiscountSheet();
+        discountSheet = getCartDiscountSheetFromCart(cart);
+        List<CartDisountBean>  cartDisountBeanList = getCartDiscounts(discountSheet);
+
+        ShoppingCartBean shoppingCartBean= new ShoppingCartBean(cart.getTitle(),cart.getDescription(),
+                cart.getCreatedDate(),cart.getStatus().getTitle(),cartCommodityBeanList,cartDisountBeanList);
+     return shoppingCartBean;
+    }
+
+
+
     public  List<CartCommodityBean> getCartCommodities(Cart cart) {
         List<CartCommodityBean> cartCommodityBeanList = new ArrayList<CartCommodityBean>();
         List<CartCommodity> cartCommodities = cart.getCartCommodities();
         for(CartCommodity cartCommodity : cartCommodities ){
-            System.out.println("------->"+ cartCommodity.getNumberOfCommodityOrdered());
             CartCommodityBean cartCommodityBean = CartCommodityBean.getInstanceFromEntity(cartCommodity);
             cartCommodityBeanList.add(cartCommodityBean);
         }
-
-      return cartCommodityBeanList;
+        return cartCommodityBeanList;
     }
 
-    public ShoppingCartBean getShoppingCartWithDsicounts(Cart cart) {
-        List<CartCommodityBean> cartCommodityBeanList = getCartCommodities(cart);
-        ShoppingCartBean shoppingCartBean= new ShoppingCartBean(cart.getTitle(),cart.getDescription(),cart.getCreatedDate(),cart.getStatus().getTitle(),cartCommodityBeanList);
-//        List<CartCommodity> shoppingItems = cart.getCartCommodities();
-//        String  commodityName="hat";
-//        Optional<CartCommodity> commodity= shoppingItems.stream()
-//                .filter(x -> commodityName.equals(x.getCommodity().getCommditiyTitle()))
-//                .findAny();
-//        System.out.println("Commodity----->"+commodity.get().getNumberOfCommodityOrdered());
+    public  CartDiscountSheet getCartDiscountSheetFromCart(Cart cart) {
+        CartDiscountSheet  cartDiscountSheet = new CartDiscountSheet();
 
-     return shoppingCartBean;
+        return cartDiscountSheet;
+    }
+
+    public  List<CartDisountBean> getCartDiscounts(CartDiscountSheet discountSheet) {
+        List<CartDisountBean> cartDisountBeanList = new ArrayList<CartDisountBean>();
+        return cartDisountBeanList;
     }
 
     @Override
