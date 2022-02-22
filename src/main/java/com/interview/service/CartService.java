@@ -3,7 +3,8 @@ package com.interview.service;
 import com.interview.beans.cart.CartCommodityBean;
 import com.interview.beans.cart.CartDisountBean;
 import com.interview.beans.cart.ShoppingCartBean;
-import com.interview.beans.discount.CartDiscountSheet;
+import com.interview.beans.discount.CartCommodityDiscountItemBean;
+import com.interview.beans.discount.CartDiscountSheetBean;
 import com.interview.entity.Cart;
 import com.interview.entity.CartCommodity;
 import com.interview.repository.CartRepository;
@@ -12,10 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -58,9 +56,13 @@ public  class CartService implements CartRepository {
 
     public ShoppingCartBean getShoppingCartWithDsicounts(Cart cart) {
         List<CartCommodityBean> cartCommodityBeanList = getCartCommodities(cart);
-        CartDiscountSheet discountSheet = new CartDiscountSheet();
+        CartDiscountSheetBean discountSheet = new CartDiscountSheetBean();
         discountSheet = getCartDiscountSheetFromCart(cart);
-        List<CartDisountBean>  cartDisountBeanList = getCartDiscounts(discountSheet);
+        if(Objects.isNull(discountSheet)) {
+            System.out.println("---------discountSheet is null----------");
+        }
+
+            List<CartDisountBean>  cartDisountBeanList = getCartDiscounts(discountSheet);
 
         ShoppingCartBean shoppingCartBean= new ShoppingCartBean(cart.getTitle(),cart.getDescription(),
                 cart.getCreatedDate(),cart.getStatus().getTitle(),cartCommodityBeanList,cartDisountBeanList);
@@ -79,13 +81,31 @@ public  class CartService implements CartRepository {
         return cartCommodityBeanList;
     }
 
-    public  CartDiscountSheet getCartDiscountSheetFromCart(Cart cart) {
-        CartDiscountSheet  cartDiscountSheet = new CartDiscountSheet();
+    public CartDiscountSheetBean getCartDiscountSheetFromCart(Cart cart) {
+        CartDiscountSheetBean cartDiscountSheet = new CartDiscountSheetBean();
+        if(Objects.isNull(cart)) {
+            System.out.println("---------cart is null----------");
+        }
 
+        List<CartCommodityDiscountItemBean>  cartCommodityDiscountItems = new ArrayList<CartCommodityDiscountItemBean>();
+        cartDiscountSheet.setTitle(cart.getTitle());
+        cartDiscountSheet.setCreatedDate(cart.getCreatedDate());
+        cartCommodityDiscountItems = getCartCommdotiyDicsountItemsFromCart(cart);
+        cartDiscountSheet.setCartCommodityDiscountItems(cartCommodityDiscountItems);
         return cartDiscountSheet;
     }
+     public List<CartCommodityDiscountItemBean>  getCartCommdotiyDicsountItemsFromCart(Cart cart) {
+         List<CartCommodityDiscountItemBean>  cartCommodityDiscountItems = new ArrayList<CartCommodityDiscountItemBean>();
+         List<CartCommodity>  cartCommodities =  cart.getCartCommodities();
 
-    public  List<CartDisountBean> getCartDiscounts(CartDiscountSheet discountSheet) {
+         for(CartCommodity cartCommodity : cartCommodities ) {
+             CartCommodityDiscountItemBean cartCommodityDiscountItem = CartCommodityDiscountItemBean.getInstanceFromEntity(cartCommodity);
+             cartCommodityDiscountItems.add(cartCommodityDiscountItem);
+         }
+          return  cartCommodityDiscountItems;
+     }
+
+    public  List<CartDisountBean> getCartDiscounts(CartDiscountSheetBean discountSheet) {
         List<CartDisountBean> cartDisountBeanList = new ArrayList<CartDisountBean>();
         return cartDisountBeanList;
     }

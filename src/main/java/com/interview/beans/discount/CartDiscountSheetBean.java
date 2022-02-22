@@ -6,11 +6,11 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 @Component
-public class CartDiscountSheet {
+public class CartDiscountSheetBean {
     private String title;
     private String description;
     private ZonedDateTime createdDate;
-    private List<CartCommodityDiscountItem>  cartCommodityDiscountItems;
+    private List<CartCommodityDiscountItemBean>  cartCommodityDiscountItems;
 
     public String getTitle() {
         return title;
@@ -36,18 +36,18 @@ public class CartDiscountSheet {
         this.createdDate = createdDate;
     }
 
-    public List<CartCommodityDiscountItem> getCartCommodityDiscountItems() {
+    public List<CartCommodityDiscountItemBean> getCartCommodityDiscountItems() {
         return cartCommodityDiscountItems;
     }
 
-    public void setCartCommodityDiscountItems(List<CartCommodityDiscountItem> cartCommodityDiscountItems) {
+    public void setCartCommodityDiscountItems(List<CartCommodityDiscountItemBean> cartCommodityDiscountItems) {
         this.cartCommodityDiscountItems = cartCommodityDiscountItems;
     }
 
-    public CartDiscountSheet() {
+    public CartDiscountSheetBean() {
     }
 
-    public CartDiscountSheet(String title, String description, ZonedDateTime createdDate, List<CartCommodityDiscountItem> cartCommodityDiscountItems) {
+    public CartDiscountSheetBean(String title, String description, ZonedDateTime createdDate, List<CartCommodityDiscountItemBean> cartCommodityDiscountItems) {
         this.title = title;
         this.description = description;
         this.createdDate = createdDate;

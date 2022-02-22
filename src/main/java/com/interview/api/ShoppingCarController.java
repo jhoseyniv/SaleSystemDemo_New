@@ -1,6 +1,7 @@
 package com.interview.api;
 
 import com.interview.beans.cart.ShoppingCartBean;
+import com.interview.beans.discount.CartDiscountSheetBean;
 import com.interview.entity.Cart;
 import com.interview.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,19 @@ public class ShoppingCarController {
         Optional<Cart> cart = cartService.findByTitle(title);
         shoppingCartBean = cartService.getShoppingCartWithDsicounts(cart.get());
         return shoppingCartBean;
+    }
+
+    @RequestMapping(value = "/sheet/{title}", method = RequestMethod.GET)
+    @ResponseBody
+    public CartDiscountSheetBean getCartDiscountSheettBean(@PathVariable String title) {
+        CartDiscountSheetBean cartDiscountSheetBean = new CartDiscountSheetBean();
+        if(Objects.isNull(cartService)) {
+            System.out.println("------------cartService-------------------null");
+
+        }
+        Optional<Cart> cart = cartService.findByTitle(title);
+        cartDiscountSheetBean = cartService.getCartDiscountSheetFromCart(cart.get());
+        return cartDiscountSheetBean;
     }
 
     @RequestMapping(value = "/find/title/{title}", method = RequestMethod.GET)
