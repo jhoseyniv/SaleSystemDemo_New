@@ -7,7 +7,12 @@ import com.interview.beans.discount.CartCommodityDiscountItemBean;
 import com.interview.beans.discount.CartDiscountSheetBean;
 import com.interview.entity.Cart;
 import com.interview.entity.CartCommodity;
+import com.interview.entity.Commodity;
+import com.interview.entity.CommodityDiscountStrategy;
+import com.interview.repository.CartCommodityRepository;
 import com.interview.repository.CartRepository;
+import com.interview.repository.CommodityDiscountStrategyRepository;
+import com.interview.repository.CommodityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +26,11 @@ public  class CartService implements CartRepository {
     @Autowired
     private CartRepository cartRepository;
 
+    @Autowired
+    private CommodityRepository commodityRepository;
+
+    @Autowired
+    private CommodityDiscountStrategyRepository  commodityDiscountStrategyRepository;
 
     @Override
     public Collection<Cart> findByCreatedDate(ZonedDateTime createdDate) {
@@ -61,8 +71,7 @@ public  class CartService implements CartRepository {
         if(Objects.isNull(discountSheet)) {
             System.out.println("---------discountSheet is null----------");
         }
-
-            List<CartDisountBean>  cartDisountBeanList = getCartDiscounts(discountSheet);
+        List<CartDisountBean>  cartDisountBeanList = getCartDiscounts(discountSheet);
 
         ShoppingCartBean shoppingCartBean= new ShoppingCartBean(cart.getTitle(),cart.getDescription(),
                 cart.getCreatedDate(),cart.getStatus().getTitle(),cartCommodityBeanList,cartDisountBeanList);
@@ -94,12 +103,22 @@ public  class CartService implements CartRepository {
         cartDiscountSheet.setCartCommodityDiscountItems(cartCommodityDiscountItems);
         return cartDiscountSheet;
     }
+
+
      public List<CartCommodityDiscountItemBean>  getCartCommdotiyDicsountItemsFromCart(Cart cart) {
          List<CartCommodityDiscountItemBean>  cartCommodityDiscountItems = new ArrayList<CartCommodityDiscountItemBean>();
          List<CartCommodity>  cartCommodities =  cart.getCartCommodities();
 
-         for(CartCommodity cartCommodity : cartCommodities ) {
-             CartCommodityDiscountItemBean cartCommodityDiscountItem = CartCommodityDiscountItemBean.getInstanceFromEntity(cartCommodity);
+         for(int i=0 ; i<cartCommodities.size(); i++ ) {
+             CartCommodity cartCommodity = cartCommodities.get(i);
+             Long id = cartCommodity.getCommodity().getId();
+             Optional<Commodity> commodity =  commodityRepository.findById(id);
+
+              if(commodity.get().getCommodityDiscountStrategies() != null ) {
+                  System.out.println("nulll------re--------------------------");
+              }
+             System.out.println("Strategy--------------------------------" + commodity.get().getCommodityDiscountStrategies());
+             CartCommodityDiscountItemBean cartCommodityDiscountItem = CartCommodityDiscountItemBean.getInstanceFromEntity(cartCommodity,commodity.get().getCommodityDiscountStrategies());
              cartCommodityDiscountItems.add(cartCommodityDiscountItem);
          }
           return  cartCommodityDiscountItems;

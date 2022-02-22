@@ -1,18 +1,13 @@
 package com.interview.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@Data
-@NoArgsConstructor
 public class CommodityDiscountStrategy implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,4 +31,38 @@ public class CommodityDiscountStrategy implements Serializable {
         this.minNumberOfCommdityMeetDiscount = minNumberOfCommdityMeetDiscount;
     }
 
+    public CommodityDiscountStrategy() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Commodity getCommodity() {
+        return commodity;
+    }
+
+    public void setCommodity(Commodity commodity) {
+        this.commodity = commodity;
+    }
+
+    public DiscountStrategy getDiscountStrategy() {
+        return discountStrategy;
+    }
+
+    public void setDiscountStrategy(DiscountStrategy discountStrategy) {
+        this.discountStrategy = discountStrategy;
+    }
+
+    public Long getMinNumberOfCommdityMeetDiscount() {
+        return minNumberOfCommdityMeetDiscount;
+    }
+
+    public void setMinNumberOfCommdityMeetDiscount(Long minNumberOfCommdityMeetDiscount) {
+        this.minNumberOfCommdityMeetDiscount = minNumberOfCommdityMeetDiscount;
+    }
 }

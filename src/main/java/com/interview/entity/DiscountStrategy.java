@@ -8,15 +8,10 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import lombok.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
-@Data
-@NoArgsConstructor
-
 public class DiscountStrategy implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,7 +32,7 @@ public class DiscountStrategy implements Serializable {
 
     @OneToMany(mappedBy = "discountStrategy",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
-    private Set<CommodityDiscountStrategy> commodity_discountStrategies;
+    private List<CommodityDiscountStrategy> commodity_discountStrategies;
 
     @OneToMany(mappedBy = "discountStrategy",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
@@ -55,7 +50,7 @@ public class DiscountStrategy implements Serializable {
     private ZonedDateTime endDate;
 
     public DiscountStrategy(String strategyTitle, String strategyType, Long strategyAchivement,
-                                Set<CommodityDiscountStrategy> commodity_discountStrategies,
+                                List<CommodityDiscountStrategy> commodity_discountStrategies,
                                         ZonedDateTime startDate, ZonedDateTime endDate) {
         this.strategyTitle = strategyTitle;
         this.strategyType = strategyType;
@@ -65,5 +60,66 @@ public class DiscountStrategy implements Serializable {
         this.startDate = startDate;
     }
 
+    public DiscountStrategy() {
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getStrategyTitle() {
+        return strategyTitle;
+    }
+
+    public void setStrategyTitle(String strategyTitle) {
+        this.strategyTitle = strategyTitle;
+    }
+
+    public String getStrategyType() {
+        return strategyType;
+    }
+
+    public void setStrategyType(String strategyType) {
+        this.strategyType = strategyType;
+    }
+
+    public Long getStrategyAchivement() {
+        return strategyAchivement;
+    }
+
+    public void setStrategyAchivement(Long strategyAchivement) {
+        this.strategyAchivement = strategyAchivement;
+    }
+
+    public List<CommodityDiscountStrategy> getCommodity_discountStrategies() {
+        return commodity_discountStrategies;
+    }
+
+    public void setCommodity_discountStrategies(List<CommodityDiscountStrategy> commodity_discountStrategies) {
+        this.commodity_discountStrategies = commodity_discountStrategies;
+    }
+
+    public void setCartDiscountStrategies(List<CartDiscountStrategy> cartDiscountStrategies) {
+        this.cartDiscountStrategies = cartDiscountStrategies;
+    }
+
+    public ZonedDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(ZonedDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public ZonedDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(ZonedDateTime endDate) {
+        this.endDate = endDate;
+    }
 }

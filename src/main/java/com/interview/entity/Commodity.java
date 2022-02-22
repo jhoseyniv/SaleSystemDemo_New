@@ -9,14 +9,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 
-import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Data
-@NoArgsConstructor
 public class Commodity implements Serializable {
 
     @Id
@@ -34,33 +31,82 @@ public class Commodity implements Serializable {
 
 
     @OneToMany(mappedBy = "commodity",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Collection<CommodityDiscountStrategy> commodity_discountStrategies;
-    public Collection<CommodityDiscountStrategy> getCommodity_discountStrategies() {
-        return commodity_discountStrategies;
+    private List<CommodityDiscountStrategy> commodityDiscountStrategies;
+
+    public List<CommodityDiscountStrategy> getCommodityDiscountStrategies() {
+        return commodityDiscountStrategies;
     }
 
     @OneToMany(mappedBy = "commodity", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
-     private Collection<CartCommodity> cartCommodities;
-    public Collection<CartCommodity> getCartCommodities() {
+     private List<CartCommodity> cartCommodities;
+    public List<CartCommodity> getCartCommodities() {
         return cartCommodities;
     }
 
 
 
     @OneToMany(mappedBy = "price", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Collection<Price> prices;
-    public Collection<Price> getPrices() {
+    private List<Price> prices;
+    public List<Price> getPrices() {
         return prices;
     }
 
-    public Commodity(String commditiyTitle, double price, String priceCurrency, Collection<CommodityDiscountStrategy> commodity_discountStrategies,
-                     Collection<CartCommodity> cartCommodities, Collection<Price> prices) {
+
+    public Commodity() {
+    }
+
+    public Commodity(String commditiyTitle, double price, String priceCurrency, List<CommodityDiscountStrategy> commodityDiscountStrategies,
+                     List<CartCommodity> cartCommodities, List<Price> prices) {
         this.commditiyTitle = commditiyTitle;
         this.price = price;
         this.priceCurrency = priceCurrency;
-        this.commodity_discountStrategies = commodity_discountStrategies;
+        this.commodityDiscountStrategies = commodityDiscountStrategies;
         this.cartCommodities = cartCommodities;
+        this.prices = prices;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCommditiyTitle() {
+        return commditiyTitle;
+    }
+
+    public void setCommditiyTitle(String commditiyTitle) {
+        this.commditiyTitle = commditiyTitle;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getPriceCurrency() {
+        return priceCurrency;
+    }
+
+    public void setPriceCurrency(String priceCurrency) {
+        this.priceCurrency = priceCurrency;
+    }
+
+    public void setCommodityDiscountStrategies(List<CommodityDiscountStrategy> commodityDiscountStrategies) {
+        this.commodityDiscountStrategies = commodityDiscountStrategies;
+    }
+
+    public void setCartCommodities(List<CartCommodity> cartCommodities) {
+        this.cartCommodities = cartCommodities;
+    }
+
+    public void setPrices(List<Price> prices) {
         this.prices = prices;
     }
 }

@@ -4,7 +4,6 @@ import com.interview.entity.CartCommodity;
 import org.springframework.stereotype.Component;
 
 @Component
-
 public class CartCommodityBean {
     private String commditiyTitle;
     private double originalPrice;
@@ -73,6 +72,7 @@ public class CartCommodityBean {
         this.totalPriceWithoutDiscount = totalPriceWithoutDiscount;
         this.description = description;
     }
+
     public static  CartCommodityBean getInstanceFromEntity(CartCommodity cartCommodity){
         String commditiyTitle = cartCommodity.getCommodity().getCommditiyTitle();
         double originalPrice = cartCommodity.getCommodity().getPrice();

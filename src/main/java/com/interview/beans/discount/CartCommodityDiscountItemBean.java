@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 @Component
 public class CartCommodityDiscountItemBean {
@@ -97,22 +98,21 @@ public class CartCommodityDiscountItemBean {
         this.strategyType = strategyType;
         this.strategyAchivement = strategyAchivement;
     }
-    public static CartCommodityDiscountItemBean getInstanceFromEntity(CartCommodity cartCommodity) {
-            String commditiyTitle = cartCommodity.getCommodity().getCommditiyTitle();
+    public static CartCommodityDiscountItemBean getInstanceFromEntity(CartCommodity cartCommodity, List<CommodityDiscountStrategy> commodityDiscountStrategies) {
+        String strategyTitle = "";
+        String  strategyType = "";
+        Long  strategyAchivement = 0L;
+
+        String commditiyTitle = cartCommodity.getCommodity().getCommditiyTitle();
             double originalPrice = cartCommodity.getCommodity().getPrice();
             String priceCurrency = cartCommodity.getCommodity().getPriceCurrency();
             long   numberOfCommodityOrdered = cartCommodity.getNumberOfCommodityOrdered();
             double totalPriceWithoutDiscount = originalPrice * numberOfCommodityOrdered;
-            Collection<CommodityDiscountStrategy>  commodityDiscountStrategies = cartCommodity.getCommodity().getCommodity_discountStrategies();
-            Iterator<CommodityDiscountStrategy> itr = commodityDiscountStrategies.iterator();
-            CommodityDiscountStrategy strategy = new CommodityDiscountStrategy();
-            if(itr.hasNext()) {
-                strategy = itr.next();
-            }
-
-            String strategyTitle = strategy.getDiscountStrategy().getStrategyTitle();
-            String  strategyType = strategy.getDiscountStrategy().getStrategyType();
-            Long  strategyAchivement = strategy.getDiscountStrategy().getStrategyAchivement();
+        if(commodityDiscountStrategies.size() > 0 ) {
+             strategyTitle = commodityDiscountStrategies.get(0).getDiscountStrategy().getStrategyTitle();
+             strategyType = commodityDiscountStrategies.get(0).getDiscountStrategy().getStrategyType();
+            strategyAchivement = commodityDiscountStrategies.get(0).getDiscountStrategy().getStrategyAchivement();
+        }
             return  new CartCommodityDiscountItemBean(commditiyTitle,originalPrice,priceCurrency,numberOfCommodityOrdered,totalPriceWithoutDiscount,strategyTitle,strategyType,strategyAchivement);
         }
 

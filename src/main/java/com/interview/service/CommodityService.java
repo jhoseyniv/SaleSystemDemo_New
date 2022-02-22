@@ -66,8 +66,8 @@ public  class CommodityService implements CommodityRepository {
     public CommodityBean calcualtCommdityDsicounts(Commodity commodity) {
         List<DiscountStrategyBean> strategydicuontMeets = new ArrayList<DiscountStrategyBean>();
 
-        Collection<CommodityDiscountStrategy> commodity_discountStrategies = commodity.getCommodity_discountStrategies();
-        Iterator<CommodityDiscountStrategy> itr = commodity_discountStrategies.iterator();
+        Collection<CommodityDiscountStrategy> commodityDiscountStrategies = commodity.getCommodityDiscountStrategies();
+        Iterator<CommodityDiscountStrategy> itr = commodityDiscountStrategies.iterator();
         while(itr.hasNext()) {
             CommodityDiscountStrategy strategy = itr.next();
             if(strategy.getDiscountStrategy().getStrategyType().equalsIgnoreCase(StrategyTypes.DISCOUNT.toString())){

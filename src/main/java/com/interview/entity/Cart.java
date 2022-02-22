@@ -6,19 +6,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import lombok.*;
 
 
 @Entity
-@Data
-@NoArgsConstructor
 public class Cart implements Serializable {
     static final long serialVersionUID = 1L; //assign a long value
 
@@ -67,6 +61,65 @@ public class Cart implements Serializable {
         this.status = status;
         this.customer = customer;
         this.cartCommodities = cartCommodities;
+        this.cartDiscountStrategies = cartDiscountStrategies;
+    }
+
+    public Cart() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public CartStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CartStatus status) {
+        this.status = status;
+    }
+
+    public ZonedDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(ZonedDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public void setCartCommodities(List<CartCommodity> cartCommodities) {
+        this.cartCommodities = cartCommodities;
+    }
+
+    public void setCartDiscountStrategies(List<CartDiscountStrategy> cartDiscountStrategies) {
         this.cartDiscountStrategies = cartDiscountStrategies;
     }
 }
