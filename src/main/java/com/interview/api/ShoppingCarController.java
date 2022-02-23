@@ -82,11 +82,7 @@ public class ShoppingCarController {
     @Transactional
     @RequestMapping(value = "/add/{numberOfCommodity}/{commodityTitle}/to/{cartTitle}", method = { RequestMethod.GET, RequestMethod.POST })
     public ShoppingCartBean addCommodityToOrder(@PathVariable Long numberOfCommodity , @PathVariable String commodityTitle, @PathVariable String cartTitle)  {
-        Cart shoppingCart = cartService.findByTitle(cartTitle);
-
-        Commodity commodity = commodityService.findByCommditiyTitle(commodityTitle);
-        CartCommodity cartCommodity = new CartCommodity(commodity,shoppingCart,numberOfCommodity);
-        cartCommodityService.save(cartCommodity);
+        cartCommodityService.saveorUpdate(cartTitle,commodityTitle,numberOfCommodity);
         Cart updateShoppingCart = cartService.findByTitle(cartTitle);
         ShoppingCartBean shoppingCartBean = cartService.getShoppingCartWithDsicounts(updateShoppingCart);
         return shoppingCartBean;

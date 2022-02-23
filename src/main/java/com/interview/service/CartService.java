@@ -1,14 +1,11 @@
 package com.interview.service;
 
 import com.interview.beans.cart.*;
-import com.interview.beans.commodity.CommodityBean;
-import com.interview.beans.commodity.DiscountStrategyBean;
 import com.interview.beans.discount.CartCommodityDiscountItemBean;
 import com.interview.beans.discount.CartDiscountSheetBean;
 import com.interview.customexception.NegativePriceException;
 import com.interview.entity.*;
 import com.interview.repository.CartRepository;
-import com.interview.repository.CommodityDiscountStrategyRepository;
 import com.interview.repository.CommodityRepository;
 import com.interview.repository.DiscountStrategyRepository;
 import com.interview.util.DiscountUtitlty;
@@ -19,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -70,23 +66,19 @@ public  class CartService implements CartRepository {
         List<CartCommodityBean> cartCommodityBeanList = getCartCommodities(cart);
 
         CartDiscountSheetBean discountSheet = new CartDiscountSheetBean();
+
         discountSheet = getCartDiscountSheetFromCart(cart);
-
-        List<CommodityBean> commodtitesWithGiftStratgy = new ArrayList<CommodityBean>();
-        commodtitesWithGiftStratgy = getCommoditiesWithGiftStrategy(cart);
-
         List<GiftStrategyDiscountBean>  giftStrategyDiscountBean = getCartGiftDiscounts(discountSheet);
-
         List<PercentStrategyDiscountBean>  percentStrategyDiscountBean = getCartPercentDiscounts(discountSheet);
-
         ShoppingCartBean shoppingCartBean= new ShoppingCartBean(cart.getTitle(),cart.getDescription(),
                 cart.getCreatedDate(),cartCommodityBeanList,giftStrategyDiscountBean,percentStrategyDiscountBean,cart.getStatus().getTitle());
+
      return shoppingCartBean;
     }
 
-
+/*
     public  List<CommodityBean> getCommoditiesWithGiftStrategy(Cart cart) {
-        List<CommodityBean> commodtites = new ArrayList<CommodityBean>();
+        List<CommodityBean> commodtitesBeanList = new ArrayList<CommodityBean>();
         List<CartCommodity> cartCommoditites = new ArrayList<CartCommodity>();
         cartCommoditites = cart.getCartCommodities();
 
@@ -95,17 +87,13 @@ public  class CartService implements CartRepository {
             String priceCurrency = cartCommodity.getCommodity().getPriceCurrency();
             double originalPrice = cartCommodity.getCommodity().getPrice();
             List<CommodityDiscountStrategy> strategies = cartCommodity.getCommodity().getCommodityDiscountStrategies();
-
-
-
-          //  CommodityBean commodityBean = new CommodityBean(commodityTitle , originalPrice , priceCurrency,strategydicuontMeeted);
         }
 
         cartCommoditites.get(0).getCommodity().getCommodityDiscountStrategies();
 
-      return  commodtites;
+      return  commodtitesBeanList;
     }
-
+*/
     public  List<CartCommodityBean> getCartCommodities(Cart cart) {
         List<CartCommodityBean> cartCommodityBeanList = new ArrayList<CartCommodityBean>();
         List<CartCommodity> cartCommodities = cart.getCartCommodities();
@@ -155,19 +143,12 @@ public  class CartService implements CartRepository {
                 Collectors.groupingBy(CartCommodityDiscountItemBean::getStrategyTitle, Collectors.toList()));
 
         Iterator<Map.Entry<String, List<CartCommodityDiscountItemBean>> > i = commodityItemsMeetGiftStrategy.entrySet().iterator();
-        System.out.println("----------- --------------");
         commodityItemsMeetGiftStrategy.keySet().stream().forEach(el-> System.out.println(el));
 
         while (i.hasNext()) {
             Map.Entry<String, List<CartCommodityDiscountItemBean>> item = i.next();
             String key = item.getKey();
             List<CartCommodityDiscountItemBean> batchItem = item.getValue();
-//            for(int j=0 ; j<batchItem.size();j++){
-//                CartCommodityDiscountItemBean cartCommodityDiscountItemBean = batchItem.get(j);
-//                System.out.println("-----------" + cartCommodityDiscountItemBean .getCommditiyTitle() + " --------------" + batchItem.get(counter++));
-//
-//            }
-
 
            isGiftStrategy = checkBtachItem(key,batchItem);
            if( isGiftStrategy )  {
@@ -175,8 +156,6 @@ public  class CartService implements CartRepository {
                         cartItemsGiftStrategy.add(cartItemsGiftStrategyBatch);
            }
         }
-
-
         return cartItemsGiftStrategy;
     }
 
@@ -185,7 +164,6 @@ public  class CartService implements CartRepository {
         for( int i=0; i<batchItem.size();i++){
             CartCommodityDiscountItemBean item = new CartCommodityDiscountItemBean();
             item = batchItem.get(i);
-            System.out.println("---------- strategy---------" + bachName);
             DiscountStrategy discountStrategy = discountStrategyRepository.findByStrategyTitle(bachName);
             List<CommodityDiscountStrategy> commodityDiscountStrategy = discountStrategy.getCommodity_discountStrategies();
              int lenght = commodityDiscountStrategy.size();
@@ -195,7 +173,6 @@ public  class CartService implements CartRepository {
                 if(item.getCommditiyTitle().equalsIgnoreCase(commodity.getCommditiyTitle())) {
                     find = true;
                     j = lenght;
-                    System.out.println( "------"+ j +"----------" + item.getCommditiyTitle() +"---------" + commodity.getCommditiyTitle());
                 } else {
                     find = false;
                 }
@@ -204,7 +181,6 @@ public  class CartService implements CartRepository {
             }
 
         }
-         System.out.println("---------- find---------" + find);
          return  find;
      }
     public  List<PercentStrategyDiscountBean> getCartPercentDiscounts(CartDiscountSheetBean discountSheet) throws NegativePriceException {
