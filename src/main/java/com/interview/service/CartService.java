@@ -145,7 +145,8 @@ public  class CartService implements CartRepository {
 
     public  List<GiftStrategyDiscountBean> getCartGiftDiscounts(CartDiscountSheetBean discountSheet) {
         List<CartCommodityDiscountItemBean> cartCommodityDiscountItems = discountSheet.getCartCommodityDiscountItems();
-        List<String> commodityNamesInStrategy= new ArrayList<String>();
+        GiftStrategyDiscountBean cartItemsGiftStrategyBatch = new GiftStrategyDiscountBean();
+        List<GiftStrategyDiscountBean> cartItemsGiftStrategy = new ArrayList<GiftStrategyDiscountBean>();
         boolean isGiftStrategy = false;
         List<CartCommodityDiscountItemBean> tempList = cartCommodityDiscountItems.stream().
                 filter( commdityItem -> commdityItem.getStrategyType().equalsIgnoreCase(StrategyTypes.GIFT.toString()) ).toList();
@@ -157,19 +158,25 @@ public  class CartService implements CartRepository {
         System.out.println("----------- --------------");
         commodityItemsMeetGiftStrategy.keySet().stream().forEach(el-> System.out.println(el));
 
-        int counter=0;
         while (i.hasNext()) {
             Map.Entry<String, List<CartCommodityDiscountItemBean>> item = i.next();
             String key = item.getKey();
             List<CartCommodityDiscountItemBean> batchItem = item.getValue();
-            System.out.println("-----------" + key + " --------------" + batchItem.get(counter++));
+//            for(int j=0 ; j<batchItem.size();j++){
+//                CartCommodityDiscountItemBean cartCommodityDiscountItemBean = batchItem.get(j);
+//                System.out.println("-----------" + cartCommodityDiscountItemBean .getCommditiyTitle() + " --------------" + batchItem.get(counter++));
+//
+//            }
 
-          //  isGiftStrategy = checkBtachItem(key,batchItem);
 
+           isGiftStrategy = checkBtachItem(key,batchItem);
+           if( isGiftStrategy )  {
+                        cartItemsGiftStrategyBatch = DiscountUtitlty.getGiftStrategyBean(batchItem);
+                        cartItemsGiftStrategy.add(cartItemsGiftStrategyBatch);
+           }
         }
 
 
-        List<GiftStrategyDiscountBean> cartItemsGiftStrategy = DiscountUtitlty.calcualteGiftStrategy(commodityItemsMeetGiftStrategy);
         return cartItemsGiftStrategy;
     }
 
@@ -188,10 +195,11 @@ public  class CartService implements CartRepository {
                 if(item.getCommditiyTitle().equalsIgnoreCase(commodity.getCommditiyTitle())) {
                     find = true;
                     j = lenght;
-                    System.out.println("----------" + item.getCommditiyTitle() +"---------" + commodity.getCommditiyTitle());
+                    System.out.println( "------"+ j +"----------" + item.getCommditiyTitle() +"---------" + commodity.getCommditiyTitle());
                 } else {
                     find = false;
                 }
+                j++;
 
             }
 

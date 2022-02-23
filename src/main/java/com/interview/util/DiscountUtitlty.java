@@ -24,28 +24,28 @@ public class DiscountUtitlty {
             if(totalPriceAfterDiscount < 0 )
                     throw new NegativePriceException(" total Price can not be negative" , totalPriceAfterDiscount);
 
-            PercentStrategyDiscountBean percentItem = new PercentStrategyDiscountBean(item.getCommodityId(),item.getCommditiyTitle(),item.getOriginalPrice(),
-                    item.getPriceCurrency(),item.getNumberOfCommodityOrdered(),item.getTotalPriceWithoutDiscount(),item.getStrategyTitle(),item.getMinNumberOfCommdityMeetDiscount(),
-                    item.getStrategyAchivement(),totalPriceAfterDiscount);
+            PercentStrategyDiscountBean percentItem = new PercentStrategyDiscountBean(item.getCommodityId(), item.getStrategyTitle(),item.getMinNumberOfCommdityMeetDiscount(), item.getStrategyAchivement(),
+                    item.getCommditiyTitle(),item.getOriginalPrice(),item.getPriceCurrency(),item.getNumberOfCommodityOrdered(),item.getTotalPriceWithoutDiscount(),totalPriceAfterDiscount);
             cartDisountBeanList.add(percentItem);
         }
 
         return cartDisountBeanList;
     }
 
-    public static List<GiftStrategyDiscountBean> calcualteGiftStrategy (Map<String, List<CartCommodityDiscountItemBean> > groupedItems) {
-        List<GiftStrategyDiscountBean> cartGiftBeanList = new ArrayList<GiftStrategyDiscountBean>() ;
-        Iterator<Map.Entry<String, List<CartCommodityDiscountItemBean>> > i = groupedItems.entrySet().iterator();
-        while (i.hasNext()) {
-            Map.Entry<String,  List<CartCommodityDiscountItemBean>> item = i.next();
-            String key = item.getKey();
-            List<CartCommodityDiscountItemBean> items = item.getValue();
-          //  System.out.println(key + " ---" + items.toString());
-//            GiftStrategyDiscountBean giftStrategyDiscountBean = new GiftStrategyDiscountBean(item.getCommodityId(),item.getCommditiyTitle(),item.getOriginalPrice(),
-//                    item.getPriceCurrency(),item.getNumberOfCommodityOrdered(),item.getTotalPriceWithoutDiscount(),item.getStrategyTitle(),item.getMinNumberOfCommdityMeetDiscount(),item.getStrategyAchivement(),item.getStrategyType());
-//            cartGiftBeanList.add(giftStrategyDiscountBean);
+    public static GiftStrategyDiscountBean getGiftStrategyBean (List<CartCommodityDiscountItemBean>  items) {
+        GiftStrategyDiscountBean giftStrategyDiscountBean = new GiftStrategyDiscountBean() ;
+        List<String> commodityRelatedWithStrategy= new ArrayList<String>();
+        for(int i=0; i<items.size(); i++){
+            CartCommodityDiscountItemBean itemBean = items.get(i);
+            commodityRelatedWithStrategy.add(itemBean.getCommditiyTitle());
         }
-            return cartGiftBeanList;
+       if(items.size() > 0 ) {
+            CartCommodityDiscountItemBean item = items.get(0);
+            long commodityMustBeGiftedId = item.getStrategyAchivement();
+             giftStrategyDiscountBean = new GiftStrategyDiscountBean(item.getStrategyTitle() ,item.getMinNumberOfCommdityMeetDiscount(),
+                    commodityMustBeGiftedId,"-----",commodityRelatedWithStrategy);
+         }
+        return giftStrategyDiscountBean;
     }
 
 }

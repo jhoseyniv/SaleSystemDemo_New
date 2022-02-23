@@ -30,7 +30,7 @@ public class ShoppingCarController {
         return carts;
     }
 
-    @RequestMapping(value = "/title/{title}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{title}", method = RequestMethod.GET)
     @ResponseBody
     public ShoppingCartBean getShoppingCartBean(@PathVariable String title) throws NegativePriceException {
         ShoppingCartBean shoppingCartBean = new ShoppingCartBean();
