@@ -5,9 +5,15 @@ import com.interview.beans.cart.PercentStrategyDiscountBean;
 import com.interview.beans.cart.ShoppingCartBean;
 import com.interview.beans.discount.CartDiscountSheetBean;
 import com.interview.customexception.NegativePriceException;
+import com.interview.customexception.SalesManagmentException;
 import com.interview.entity.Cart;
+import com.interview.entity.CartCommodity;
+import com.interview.entity.Commodity;
+import com.interview.service.CartCommodityService;
 import com.interview.service.CartService;
+import com.interview.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +29,11 @@ public class ShoppingCarController {
     @Autowired
     private CartService cartService;
 
+    @Autowired
+    private CommodityService commodityService;
+
+    @Autowired
+    private CartCommodityService cartCommodityService;
 
     @GetMapping("/")
     public @ResponseBody Iterable<Cart> getCarts() {
@@ -34,8 +45,8 @@ public class ShoppingCarController {
     @ResponseBody
     public ShoppingCartBean getShoppingCartBean(@PathVariable String title) throws NegativePriceException {
         ShoppingCartBean shoppingCartBean = new ShoppingCartBean();
-        Optional<Cart> cart = cartService.findByTitle(title);
-        shoppingCartBean = cartService.getShoppingCartWithDsicounts(cart.get());
+        Cart cart = cartService.findByTitle(title);
+        shoppingCartBean = cartService.getShoppingCartWithDsicounts(cart);
         return shoppingCartBean;
     }
 
@@ -43,17 +54,17 @@ public class ShoppingCarController {
     @ResponseBody
     public CartDiscountSheetBean getCartDiscountSheettBean(@PathVariable String title) {
         CartDiscountSheetBean cartDiscountSheetBean = new CartDiscountSheetBean();
-        Optional<Cart> cart = cartService.findByTitle(title);
-        cartDiscountSheetBean = cartService.getCartDiscountSheetFromCart(cart.get());
+        Cart cart = cartService.findByTitle(title);
+        cartDiscountSheetBean = cartService.getCartDiscountSheetFromCart(cart);
         return cartDiscountSheetBean;
     }
 
     @RequestMapping(value = "/discounts/{title}", method = RequestMethod.GET)
     @ResponseBody
     public List<PercentStrategyDiscountBean> getCartDiscountItems(@PathVariable String title) throws NegativePriceException {
-        Optional<Cart> cart = cartService.findByTitle(title);
+        Cart cart = cartService.findByTitle(title);
         CartDiscountSheetBean discountSheet = new CartDiscountSheetBean();
-        discountSheet = cartService.getCartDiscountSheetFromCart(cart.get());
+        discountSheet = cartService.getCartDiscountSheetFromCart(cart);
         List<PercentStrategyDiscountBean> discountPercentItems =cartService.getCartPercentDiscounts(discountSheet);
         return discountPercentItems;
     }
@@ -61,36 +72,24 @@ public class ShoppingCarController {
     @RequestMapping(value = "/gifts/{title}", method = RequestMethod.GET)
     @ResponseBody
     public List<GiftStrategyDiscountBean> getCartGiftItems(@PathVariable String title) throws NegativePriceException {
-        Optional<Cart> cart = cartService.findByTitle(title);
+        Cart cart = cartService.findByTitle(title);
         CartDiscountSheetBean discountSheet = new CartDiscountSheetBean();
-        discountSheet = cartService.getCartDiscountSheetFromCart(cart.get());
+        discountSheet = cartService.getCartDiscountSheetFromCart(cart);
         List<GiftStrategyDiscountBean> giftItems =cartService.getCartGiftDiscounts(discountSheet);
         return giftItems;
     }
 
+    @Transactional
+    @RequestMapping(value = "/add/{numberOfCommodity}/{commodityTitle}/to/{cartTitle}", method = { RequestMethod.GET, RequestMethod.POST })
+    public ShoppingCartBean addCommodityToOrder(@PathVariable Long numberOfCommodity , @PathVariable String commodityTitle, @PathVariable String cartTitle)  {
+        Cart shoppingCart = cartService.findByTitle(cartTitle);
 
-
-
-    @RequestMapping(value = "/find/id/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public Optional<Cart> getSaleOrderById(@PathVariable Long id) {
-        if(Objects.isNull(cartService)){
-            System.out.println("-------------------------------null");
-        }
-        Optional<Cart> saleOrder = cartService.findById(id);
-        return saleOrder;
+        Commodity commodity = commodityService.findByCommditiyTitle(commodityTitle);
+        CartCommodity cartCommodity = new CartCommodity(commodity,shoppingCart,numberOfCommodity);
+        cartCommodityService.save(cartCommodity);
+        Cart updateShoppingCart = cartService.findByTitle(cartTitle);
+        ShoppingCartBean shoppingCartBean = cartService.getShoppingCartWithDsicounts(updateShoppingCart);
+        return shoppingCartBean;
     }
-
-
-//    @Transactional
-//    @RequestMapping(value = "/add/{orderId}/{commodityId}/{numberOfCommodity}", method = { RequestMethod.GET, RequestMethod.POST })
-//    public Cart addCommodityToOrder(@PathVariable Long orderId , @PathVariable Long commodityId, @PathVariable Long numberOfCommodity)  {
-//        Cart order = shopingCartService.findSaleOrderById(orderId);
-//        Optional<Commodity> commodity = commodityService.findById(commodityId);
-//        CartCommodity cartCommodity = new CartCommodity(commodity.get(),order,numberOfCommodity);
-//        cartCommodityService.save(cartCommodity);
-//        Cart updatedOrder = cartService.findSaleOrderById(orderId);
-//        return updatedOrder;
-//    }
 
 }

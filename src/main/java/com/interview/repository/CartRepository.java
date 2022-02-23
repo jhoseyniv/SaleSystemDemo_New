@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface CartRepository extends CrudRepository<Cart, Long> {
     Optional<Cart> findById(Long id);
     Collection<Cart> findAll();
-    Optional<Cart> findByTitle(String title);
+    Cart  findByTitle(String title);
     Collection<Cart> findByCreatedDate(ZonedDateTime createdDate);
     Collection<Cart> findByDescription(String description);
     Collection<Cart> findByDescriptionContaining(String serachTerm);

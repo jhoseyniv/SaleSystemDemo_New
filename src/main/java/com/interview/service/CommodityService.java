@@ -2,6 +2,7 @@ package com.interview.service;
 
 import com.interview.beans.commodity.CommodityBean;
 import com.interview.beans.commodity.DiscountStrategyBean;
+import com.interview.customexception.CommodityNotFoundException;
 import com.interview.diccount.DiscountACommodity;
 import com.interview.diccount.GiftACommodity;
 import com.interview.diccount.StrategyContext;
@@ -55,7 +56,9 @@ public  class CommodityService implements CommodityRepository {
 
     @Override
     public Commodity findByCommditiyTitle(String title) {
-        return commodityRepository.findByCommditiyTitle(title);
+        Commodity commodity = commodityRepository.findByCommditiyTitle(title);
+        if(Objects.isNull(commodity)) throw new CommodityNotFoundException(title,"Not Found");
+        return commodity;
     }
 
     @Override

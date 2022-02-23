@@ -230,8 +230,7 @@ public  class CartService implements CartRepository {
         return cartRepository.findAll();
     }
 
-    @Override
-    public Optional<Cart> findByTitle(String title) {
+    public Cart findByTitle(String title) {
         return cartRepository.findByTitle(title);
     }
 
