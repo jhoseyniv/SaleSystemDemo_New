@@ -19,6 +19,8 @@ public class DiscountStrategyBean {
         this.priceCurrency = priceCurrency;
     }
 
+
+
     public String getStrategyTitle() {
         return strategyTitle;
     }
@@ -50,4 +52,6 @@ public class DiscountStrategyBean {
     public void setPriceCurrency(String priceCurrency) {
         this.priceCurrency = priceCurrency;
     }
+
+
 }

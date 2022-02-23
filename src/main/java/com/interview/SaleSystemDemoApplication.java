@@ -91,10 +91,10 @@ public class SaleSystemDemoApplication {
 			Cart shopingCartAli= new Cart(ali,"cart100","ALi Ordered 2 hats",createdDate,null, cartStatusDraft,null);
 			cartService.save(shopingCartAli);
 
-			CartCommodity hat_Item= new CartCommodity(hat,shopingCartAli,2L);
+			CartCommodity hat_Item= new CartCommodity(hat,shopingCartAli,1L);
 			cartCommodityService.save(hat_Item);
 
-			CartCommodity shoe_Item= new CartCommodity(shoe,shopingCartAli,1L);
+			CartCommodity shoe_Item= new CartCommodity(shoe,shopingCartAli,2L);
 			cartCommodityService.save(shoe_Item);
 
 
@@ -113,9 +113,9 @@ public class SaleSystemDemoApplication {
 			CartCommodity hat_Item2= new CartCommodity(hat,orderReza,10L);
 			cartCommodityService.save(hat_Item2);
 
-			DiscountStrategy giftAHatStrategy = new DiscountStrategy("Gift a Hat to client if buy a shirt and a pants","GIFT",1L,null,startDate,endDate);
-			DiscountStrategy giftAHatStrategyIfFiveHat = new DiscountStrategy("Gift 2 Hats to client if buy a 5 hat ","GIFT",2L,null,startDate,endDate);
-			DiscountStrategy discountOnAHatStrategy = new DiscountStrategy("DisCount 20% in a Hat at this time","DISCOUNT",20L,null,startDate,endDate);
+			DiscountStrategy giftAHatStrategy = new DiscountStrategy("Gift a Hat to client if buy 1 shirt and 2 pants",StrategyTypes.GIFT.toString(),1L,null,startDate,endDate);
+			DiscountStrategy giftAHatStrategyIfFiveHat = new DiscountStrategy("Gift 2 Hats to client if buy a 5 hat ",StrategyTypes.GIFT.toString(),2L,null,startDate,endDate);
+			DiscountStrategy discountOnAHatStrategy = new DiscountStrategy("DisCount 20% in a Hat at this time",StrategyTypes.DISCOUNT.toString(),20L,null,startDate,endDate);
 			discountStrategyService.save(giftAHatStrategy);
 			discountStrategyService.save(discountOnAHatStrategy);
 			discountStrategyService.save(giftAHatStrategyIfFiveHat);
@@ -126,8 +126,8 @@ public class SaleSystemDemoApplication {
 			commodityDiscountStrategyService.save(hatDiscountByHatStrategy);
 			commodityDiscountStrategyService.save(hatGfitByHatStrategy);
 
-			CommodityDiscountStrategy shirtDiscountByGiftHatStrategy= new CommodityDiscountStrategy(shirt,giftAHatStrategy,2L);
-			CommodityDiscountStrategy pantsDiscountByGiftHatStrategy= new CommodityDiscountStrategy(pants,giftAHatStrategy,1L);
+			CommodityDiscountStrategy shirtDiscountByGiftHatStrategy= new CommodityDiscountStrategy(shirt,giftAHatStrategy,1L);
+			CommodityDiscountStrategy pantsDiscountByGiftHatStrategy= new CommodityDiscountStrategy(pants,giftAHatStrategy,2L);
 			commodityDiscountStrategyService.save(shirtDiscountByGiftHatStrategy);
 			commodityDiscountStrategyService.save(pantsDiscountByGiftHatStrategy);
 

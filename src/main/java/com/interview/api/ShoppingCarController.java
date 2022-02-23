@@ -1,12 +1,16 @@
 package com.interview.api;
 
+import com.interview.beans.cart.GiftStrategyDiscountBean;
+import com.interview.beans.cart.PercentStrategyDiscountBean;
 import com.interview.beans.cart.ShoppingCartBean;
 import com.interview.beans.discount.CartDiscountSheetBean;
+import com.interview.customexception.NegativePriceException;
 import com.interview.entity.Cart;
 import com.interview.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -28,7 +32,7 @@ public class ShoppingCarController {
 
     @RequestMapping(value = "/title/{title}", method = RequestMethod.GET)
     @ResponseBody
-    public ShoppingCartBean getShoppingCartBean(@PathVariable String title) {
+    public ShoppingCartBean getShoppingCartBean(@PathVariable String title) throws NegativePriceException {
         ShoppingCartBean shoppingCartBean = new ShoppingCartBean();
         Optional<Cart> cart = cartService.findByTitle(title);
         shoppingCartBean = cartService.getShoppingCartWithDsicounts(cart.get());
@@ -44,14 +48,28 @@ public class ShoppingCarController {
         return cartDiscountSheetBean;
     }
 
-    @RequestMapping(value = "/find/title/{title}", method = RequestMethod.GET)
+    @RequestMapping(value = "/discounts/{title}", method = RequestMethod.GET)
     @ResponseBody
-    public Optional<Cart> getCartByTitle(@PathVariable String title) {
-        ShoppingCartBean shoppingCartBean = new ShoppingCartBean();
+    public List<PercentStrategyDiscountBean> getCartDiscountItems(@PathVariable String title) throws NegativePriceException {
         Optional<Cart> cart = cartService.findByTitle(title);
-
-        return cart;
+        CartDiscountSheetBean discountSheet = new CartDiscountSheetBean();
+        discountSheet = cartService.getCartDiscountSheetFromCart(cart.get());
+        List<PercentStrategyDiscountBean> discountPercentItems =cartService.getCartPercentDiscounts(discountSheet);
+        return discountPercentItems;
     }
+
+    @RequestMapping(value = "/gifts/{title}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<GiftStrategyDiscountBean> getCartGiftItems(@PathVariable String title) throws NegativePriceException {
+        Optional<Cart> cart = cartService.findByTitle(title);
+        CartDiscountSheetBean discountSheet = new CartDiscountSheetBean();
+        discountSheet = cartService.getCartDiscountSheetFromCart(cart.get());
+        List<GiftStrategyDiscountBean> giftItems =cartService.getCartGiftDiscounts(discountSheet);
+        return giftItems;
+    }
+
+
+
 
     @RequestMapping(value = "/find/id/{id}", method = RequestMethod.GET)
     @ResponseBody

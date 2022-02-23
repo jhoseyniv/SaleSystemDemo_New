@@ -6,6 +6,8 @@ import java.util.List;
 
 @Component
 public class CommodityBean {
+
+    private Long id;
     private String commditiyTitle;
     private List<DiscountStrategyBean> strategydicuontMeeted;
 
@@ -51,13 +53,18 @@ public class CommodityBean {
     public CommodityBean() {
     }
 
-    public CommodityBean(String commditiyTitle,double originalPrice ,String priceCurrency, List<DiscountStrategyBean> strategies) {
+    public CommodityBean(Long id,String commditiyTitle,double originalPrice ,String priceCurrency, List<DiscountStrategyBean> strategies) {
         this.commditiyTitle = commditiyTitle;
         this.originalPrice = originalPrice;
         this.priceCurrency = priceCurrency;
         this.strategydicuontMeeted = strategies;
     }
 
+    public Long getId() {
+        return id;
+    }
 
-
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

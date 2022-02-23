@@ -10,10 +10,11 @@ import java.util.List;
 
 @Component
 public class CartCommodityDiscountItemBean {
+    private Long commodityId;
     private String commditiyTitle;
     private double originalPrice;
     private String priceCurrency;
-    private double numberOfCommodityOrdered;
+    private long numberOfCommodityOrdered;
     private double totalPriceWithoutDiscount ;
     private String strategyTitle;
     private String strategyType;
@@ -48,7 +49,13 @@ public class CartCommodityDiscountItemBean {
         return numberOfCommodityOrdered;
     }
 
-    public void setNumberOfCommodityOrdered(double numberOfCommodityOrdered) {
+    public Long getCommodityId() {
+        return commodityId;
+    }
+
+
+
+    public void setNumberOfCommodityOrdered(long numberOfCommodityOrdered) {
         this.numberOfCommodityOrdered = numberOfCommodityOrdered;
     }
 
@@ -95,9 +102,10 @@ public class CartCommodityDiscountItemBean {
     public CartCommodityDiscountItemBean() {
     }
 
-    public CartCommodityDiscountItemBean(String commditiyTitle, double originalPrice, String priceCurrency,
-                                         double numberOfCommodityOrdered, double totalPriceWithoutDiscount,
+    public CartCommodityDiscountItemBean(Long commodityId, String commditiyTitle, double originalPrice, String priceCurrency,
+                                         long numberOfCommodityOrdered, double totalPriceWithoutDiscount,
                                          String strategyTitle, String strategyType, Long strategyAchivement,Long minNumberOfCommdityMeetDiscount) {
+        this.commodityId = commodityId;
         this.commditiyTitle = commditiyTitle;
         this.originalPrice = originalPrice;
         this.priceCurrency = priceCurrency;
@@ -114,7 +122,8 @@ public class CartCommodityDiscountItemBean {
         Long  strategyAchivement = 0L;
         Long  minNumberOfCommdityMeetDiscount = 1L;
 
-        String commditiyTitle = cartCommodity.getCommodity().getCommditiyTitle();
+            Long commodityId = cartCommodity.getCommodity().getId();
+            String commditiyTitle = cartCommodity.getCommodity().getCommditiyTitle();
             double originalPrice = cartCommodity.getCommodity().getPrice();
             String priceCurrency = cartCommodity.getCommodity().getPriceCurrency();
             long   numberOfCommodityOrdered = cartCommodity.getNumberOfCommodityOrdered();
@@ -125,7 +134,7 @@ public class CartCommodityDiscountItemBean {
              strategyAchivement = commodityDiscountStrategies.get(0).getDiscountStrategy().getStrategyAchivement();
              minNumberOfCommdityMeetDiscount = commodityDiscountStrategies.get(0).getMinNumberOfCommdityMeetDiscount();
         }
-            return  new CartCommodityDiscountItemBean(commditiyTitle,originalPrice,priceCurrency,numberOfCommodityOrdered,totalPriceWithoutDiscount,strategyTitle,strategyType,strategyAchivement,minNumberOfCommdityMeetDiscount);
+            return  new CartCommodityDiscountItemBean(commodityId,commditiyTitle,originalPrice,priceCurrency,numberOfCommodityOrdered,totalPriceWithoutDiscount,strategyTitle,strategyType,strategyAchivement,minNumberOfCommdityMeetDiscount);
         }
 
     }

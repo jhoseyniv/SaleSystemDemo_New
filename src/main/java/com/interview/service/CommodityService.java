@@ -82,7 +82,7 @@ public  class CommodityService implements CommodityRepository {
             }
         }
 
-        CommodityBean commodityBean = new CommodityBean(commodity.getCommditiyTitle(),commodity.getPrice() , commodity.getPriceCurrency(),  strategydicuontMeets) ;
+        CommodityBean commodityBean = new CommodityBean(commodity.getId(),commodity.getCommditiyTitle(),commodity.getPrice() , commodity.getPriceCurrency(),  strategydicuontMeets) ;
 
         return commodityBean ;
     }

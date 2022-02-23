@@ -8,7 +8,7 @@ public class CartCommodityBean {
     private String commditiyTitle;
     private double originalPrice;
     private String priceCurrency;
-    private double numberOfCommodityOrdered;
+    private long numberOfCommodityOrdered;
     private double totalPriceWithoutDiscount ;
     private String description;
 
@@ -48,7 +48,7 @@ public class CartCommodityBean {
         return numberOfCommodityOrdered;
     }
 
-    public void setNumberOfCommodityOrdered(double numberOfCommodityOrdered) {
+    public void setNumberOfCommodityOrdered(long numberOfCommodityOrdered) {
         this.numberOfCommodityOrdered = numberOfCommodityOrdered;
     }
 
@@ -64,7 +64,7 @@ public class CartCommodityBean {
     }
 
     public CartCommodityBean(String commditiyTitle, double originalPrice, String priceCurrency,
-                             double numberOfCommodityOrdered, double totalPriceWithoutDiscount, String description) {
+                             long numberOfCommodityOrdered, double totalPriceWithoutDiscount, String description) {
         this.commditiyTitle = commditiyTitle;
         this.originalPrice = originalPrice;
         this.priceCurrency = priceCurrency;

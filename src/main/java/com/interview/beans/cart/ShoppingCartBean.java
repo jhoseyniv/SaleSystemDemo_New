@@ -11,7 +11,8 @@ public class ShoppingCartBean {
     private String description;
     private ZonedDateTime createdDate;
     private List<CartCommodityBean> cartCommodityBeanList;
-    private List<CartDisountBean> cartDisountBeanList;
+    private List<GiftStrategyDiscountBean> giftStrategyDiscountBeanList;
+    private List<PercentStrategyDiscountBean> percentStrategyDiscountBeanList;
 
     private String status;
 
@@ -58,21 +59,30 @@ public class ShoppingCartBean {
         this.status = status;
     }
 
-    public List<CartDisountBean> getCartDisountBeanList() {
-        return cartDisountBeanList;
+    public List<GiftStrategyDiscountBean> getGiftStrategyDiscountBeanList() {
+        return giftStrategyDiscountBeanList;
     }
 
-    public void setCartDisountBeanList(List<CartDisountBean> cartDisountBeanList) {
-        this.cartDisountBeanList = cartDisountBeanList;
+    public void setGiftStrategyDiscountBeanList(List<GiftStrategyDiscountBean> giftStrategyDiscountBeanList) {
+        this.giftStrategyDiscountBeanList = giftStrategyDiscountBeanList;
     }
 
-    public ShoppingCartBean(String title, String description, ZonedDateTime createdDate, String status, List<CartCommodityBean> cartCommodityBeanList,List<CartDisountBean> cartDisountBeanList ) {
+    public List<PercentStrategyDiscountBean> getPercentStrategyDiscountBeanList() {
+        return percentStrategyDiscountBeanList;
+    }
+
+    public void setPercentStrategyDiscountBeanList(List<PercentStrategyDiscountBean> percentStrategyDiscountBeanList) {
+        this.percentStrategyDiscountBeanList = percentStrategyDiscountBeanList;
+    }
+
+    public ShoppingCartBean(String title, String description, ZonedDateTime createdDate, List<CartCommodityBean> cartCommodityBeanList, List<GiftStrategyDiscountBean> giftStrategyDiscountBeanList, List<PercentStrategyDiscountBean> percentStrategyDiscountBeanList, String status) {
         this.title = title;
         this.description = description;
         this.createdDate = createdDate;
-        this.status = status;
         this.cartCommodityBeanList = cartCommodityBeanList;
-        this.cartDisountBeanList = cartDisountBeanList;
+        this.giftStrategyDiscountBeanList = giftStrategyDiscountBeanList;
+        this.percentStrategyDiscountBeanList = percentStrategyDiscountBeanList;
+        this.status = status;
     }
 
 }

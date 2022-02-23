@@ -1,18 +1,17 @@
 package com.interview.service;
 
-import com.interview.beans.cart.CartCommodityBean;
-import com.interview.beans.cart.CartDisountBean;
-import com.interview.beans.cart.ShoppingCartBean;
+import com.interview.beans.cart.*;
+import com.interview.beans.commodity.CommodityBean;
+import com.interview.beans.commodity.DiscountStrategyBean;
 import com.interview.beans.discount.CartCommodityDiscountItemBean;
 import com.interview.beans.discount.CartDiscountSheetBean;
-import com.interview.entity.Cart;
-import com.interview.entity.CartCommodity;
-import com.interview.entity.Commodity;
-import com.interview.entity.CommodityDiscountStrategy;
-import com.interview.repository.CartCommodityRepository;
+import com.interview.customexception.NegativePriceException;
+import com.interview.entity.*;
 import com.interview.repository.CartRepository;
 import com.interview.repository.CommodityDiscountStrategyRepository;
 import com.interview.repository.CommodityRepository;
+import com.interview.repository.DiscountStrategyRepository;
+import com.interview.util.DiscountUtitlty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -31,7 +31,7 @@ public  class CartService implements CartRepository {
     private CommodityRepository commodityRepository;
 
     @Autowired
-    private CommodityDiscountStrategyRepository  commodityDiscountStrategyRepository;
+    private DiscountStrategyRepository discountStrategyRepository;
 
     @Override
     public Collection<Cart> findByCreatedDate(ZonedDateTime createdDate) {
@@ -65,18 +65,46 @@ public  class CartService implements CartRepository {
     }
 
 
-    public ShoppingCartBean getShoppingCartWithDsicounts(Cart cart) {
+    public ShoppingCartBean getShoppingCartWithDsicounts(Cart cart) throws NegativePriceException {
+
         List<CartCommodityBean> cartCommodityBeanList = getCartCommodities(cart);
+
         CartDiscountSheetBean discountSheet = new CartDiscountSheetBean();
         discountSheet = getCartDiscountSheetFromCart(cart);
-        List<CartDisountBean>  cartDisountBeanList = getCartDiscounts(discountSheet);
+
+        List<CommodityBean> commodtitesWithGiftStratgy = new ArrayList<CommodityBean>();
+        commodtitesWithGiftStratgy = getCommoditiesWithGiftStrategy(cart);
+
+        List<GiftStrategyDiscountBean>  giftStrategyDiscountBean = getCartGiftDiscounts(discountSheet);
+
+        List<PercentStrategyDiscountBean>  percentStrategyDiscountBean = getCartPercentDiscounts(discountSheet);
 
         ShoppingCartBean shoppingCartBean= new ShoppingCartBean(cart.getTitle(),cart.getDescription(),
-                cart.getCreatedDate(),cart.getStatus().getTitle(),cartCommodityBeanList,cartDisountBeanList);
+                cart.getCreatedDate(),cartCommodityBeanList,giftStrategyDiscountBean,percentStrategyDiscountBean,cart.getStatus().getTitle());
      return shoppingCartBean;
     }
 
 
+    public  List<CommodityBean> getCommoditiesWithGiftStrategy(Cart cart) {
+        List<CommodityBean> commodtites = new ArrayList<CommodityBean>();
+        List<CartCommodity> cartCommoditites = new ArrayList<CartCommodity>();
+        cartCommoditites = cart.getCartCommodities();
+
+        for(CartCommodity cartCommodity: cartCommoditites){
+            String commodityTitle = cartCommodity.getCommodity().getCommditiyTitle();
+            String priceCurrency = cartCommodity.getCommodity().getPriceCurrency();
+            double originalPrice = cartCommodity.getCommodity().getPrice();
+            List<CommodityDiscountStrategy> strategies = cartCommodity.getCommodity().getCommodityDiscountStrategies();
+
+
+
+          //  CommodityBean commodityBean = new CommodityBean(commodityTitle , originalPrice , priceCurrency,strategydicuontMeeted);
+        }
+
+        cartCommoditites.get(0).getCommodity().getCommodityDiscountStrategies();
+
+      return  commodtites;
+    }
 
     public  List<CartCommodityBean> getCartCommodities(Cart cart) {
         List<CartCommodityBean> cartCommodityBeanList = new ArrayList<CartCommodityBean>();
@@ -115,13 +143,73 @@ public  class CartService implements CartRepository {
           return  cartCommodityDiscountItems;
      }
 
-    public  List<CartDisountBean> getCartDiscounts(CartDiscountSheetBean discountSheet) {
-        List<CartDisountBean> cartDisountBeanList = new ArrayList<CartDisountBean>();
-         List<CartCommodityDiscountItemBean> cartCommodityDiscountItems = discountSheet.getCartCommodityDiscountItems();
-        List<CartCommodityDiscountItemBean> commodityItemsMeetStrategies = cartCommodityDiscountItems.stream().
-                        filter(commdityItem -> commdityItem.getMinNumberOfCommdityMeetDiscount() >= commdityItem.getNumberOfCommodityOrdered()).toList();
-        return cartDisountBeanList;
+    public  List<GiftStrategyDiscountBean> getCartGiftDiscounts(CartDiscountSheetBean discountSheet) {
+        List<CartCommodityDiscountItemBean> cartCommodityDiscountItems = discountSheet.getCartCommodityDiscountItems();
+        List<String> commodityNamesInStrategy= new ArrayList<String>();
+        boolean isGiftStrategy = false;
+        List<CartCommodityDiscountItemBean> tempList = cartCommodityDiscountItems.stream().
+                filter( commdityItem -> commdityItem.getStrategyType().equalsIgnoreCase(StrategyTypes.GIFT.toString()) ).toList();
+
+        Map<String, List<CartCommodityDiscountItemBean> > commodityItemsMeetGiftStrategy = tempList.stream().collect(
+                Collectors.groupingBy(CartCommodityDiscountItemBean::getStrategyTitle, Collectors.toList()));
+
+        Iterator<Map.Entry<String, List<CartCommodityDiscountItemBean>> > i = commodityItemsMeetGiftStrategy.entrySet().iterator();
+        System.out.println("----------- --------------");
+        commodityItemsMeetGiftStrategy.keySet().stream().forEach(el-> System.out.println(el));
+
+        int counter=0;
+        while (i.hasNext()) {
+            Map.Entry<String, List<CartCommodityDiscountItemBean>> item = i.next();
+            String key = item.getKey();
+            List<CartCommodityDiscountItemBean> batchItem = item.getValue();
+            System.out.println("-----------" + key + " --------------" + batchItem.get(counter++));
+
+          //  isGiftStrategy = checkBtachItem(key,batchItem);
+
+        }
+
+
+        List<GiftStrategyDiscountBean> cartItemsGiftStrategy = DiscountUtitlty.calcualteGiftStrategy(commodityItemsMeetGiftStrategy);
+        return cartItemsGiftStrategy;
     }
+
+     public boolean  checkBtachItem(String bachName, List<CartCommodityDiscountItemBean> batchItem) {
+        boolean find=false;
+        for( int i=0; i<batchItem.size();i++){
+            CartCommodityDiscountItemBean item = new CartCommodityDiscountItemBean();
+            item = batchItem.get(i);
+            System.out.println("---------- strategy---------" + bachName);
+            DiscountStrategy discountStrategy = discountStrategyRepository.findByStrategyTitle(bachName);
+            List<CommodityDiscountStrategy> commodityDiscountStrategy = discountStrategy.getCommodity_discountStrategies();
+             int lenght = commodityDiscountStrategy.size();
+             int j=0;
+            while ( j<lenght){
+                Commodity commodity = commodityDiscountStrategy.get(j).getCommodity();
+                if(item.getCommditiyTitle().equalsIgnoreCase(commodity.getCommditiyTitle())) {
+                    find = true;
+                    j = lenght;
+                    System.out.println("----------" + item.getCommditiyTitle() +"---------" + commodity.getCommditiyTitle());
+                } else {
+                    find = false;
+                }
+
+            }
+
+        }
+         System.out.println("---------- find---------" + find);
+         return  find;
+     }
+    public  List<PercentStrategyDiscountBean> getCartPercentDiscounts(CartDiscountSheetBean discountSheet) throws NegativePriceException {
+        List<CartCommodityDiscountItemBean> cartCommodityDiscountItems = discountSheet.getCartCommodityDiscountItems();
+
+        List<CartCommodityDiscountItemBean> commodityItemsMeetDiscountStrategy = cartCommodityDiscountItems.stream().
+                filter( commdityItem -> commdityItem.getStrategyType().equalsIgnoreCase(StrategyTypes.DISCOUNT.toString()) ).
+                filter( commdityItem -> commdityItem.getMinNumberOfCommdityMeetDiscount() <= commdityItem.getNumberOfCommodityOrdered()).toList();
+
+       List<PercentStrategyDiscountBean> cartItemsDiscountStrategy = DiscountUtitlty.calculatePercentDiscountStrategy(commodityItemsMeetDiscountStrategy);
+       return cartItemsDiscountStrategy;
+    }
+
 
     @Override
     public boolean existsById(Long aLong) {
