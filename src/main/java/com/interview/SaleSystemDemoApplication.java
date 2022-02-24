@@ -83,7 +83,7 @@ public class SaleSystemDemoApplication {
 			Commodity shoe = new Commodity("shoe",50d,"krona",null,null,null);
 			Commodity mobile = new Commodity("mobile",500d,"krona",null,null,null);
 			Commodity tablet = new Commodity("tablet",600d,"krona",null,null,null);
-			Commodity tv = new Commodity("television",600d,"krona",null,null,null);
+			Commodity tv = new Commodity("tv",600d,"krona",null,null,null);
 
 			commodityService.save(hat);
 			commodityService.save(shirt);
@@ -118,9 +118,6 @@ public class SaleSystemDemoApplication {
 
 			CartCommodity hatItem2= new CartCommodity(hat,orderReza,10L);
 			cartCommodityService.save(hatItem2);
-
-//			CartCommodity mobileItem= new CartCommodity(hat,orderReza,10L);
-//			cartCommodityService.save(mobileItem);
 
 			DiscountStrategy giftAHatStrategy = new DiscountStrategy("Gift a Hat to client if buy 1 shirt and 2 pants",StrategyTypes.GIFT.toString(),1L,null,startDate,endDate);
 			DiscountStrategy giftAHatStrategyIfFiveHat = new DiscountStrategy("Gift 2 Hats to client if buy a 5 hat ",StrategyTypes.GIFT.toString(),2L,null,startDate,endDate);

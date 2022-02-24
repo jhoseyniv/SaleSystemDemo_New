@@ -103,7 +103,6 @@ public  class CommodityService implements CommodityRepository {
 
     @Override
     public void deleteById(Long aLong) {
-        //check orders befor delete
         commodityRepository.deleteById(aLong);
     }
 

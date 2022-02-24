@@ -62,7 +62,6 @@ public  class CartService implements CartRepository {
 
 
     public ShoppingCartBean getShoppingCartWithDsicounts(Cart cart) throws NegativePriceException {
-
         List<CartCommodityBean> cartCommodityBeanList = getCartCommodities(cart);
 
         CartDiscountSheetBean discountSheet = new CartDiscountSheetBean();
@@ -76,24 +75,6 @@ public  class CartService implements CartRepository {
      return shoppingCartBean;
     }
 
-/*
-    public  List<CommodityBean> getCommoditiesWithGiftStrategy(Cart cart) {
-        List<CommodityBean> commodtitesBeanList = new ArrayList<CommodityBean>();
-        List<CartCommodity> cartCommoditites = new ArrayList<CartCommodity>();
-        cartCommoditites = cart.getCartCommodities();
-
-        for(CartCommodity cartCommodity: cartCommoditites){
-            String commodityTitle = cartCommodity.getCommodity().getCommditiyTitle();
-            String priceCurrency = cartCommodity.getCommodity().getPriceCurrency();
-            double originalPrice = cartCommodity.getCommodity().getPrice();
-            List<CommodityDiscountStrategy> strategies = cartCommodity.getCommodity().getCommodityDiscountStrategies();
-        }
-
-        cartCommoditites.get(0).getCommodity().getCommodityDiscountStrategies();
-
-      return  commodtitesBeanList;
-    }
-*/
     public  List<CartCommodityBean> getCartCommodities(Cart cart) {
         List<CartCommodityBean> cartCommodityBeanList = new ArrayList<CartCommodityBean>();
         List<CartCommodity> cartCommodities = cart.getCartCommodities();
@@ -177,9 +158,7 @@ public  class CartService implements CartRepository {
                     find = false;
                 }
                 j++;
-
             }
-
         }
          return  find;
      }

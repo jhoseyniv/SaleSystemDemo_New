@@ -54,6 +54,7 @@ public class CommodityBean {
     }
 
     public CommodityBean(Long id,String commditiyTitle,double originalPrice ,String priceCurrency, List<DiscountStrategyBean> strategies) {
+        this.id =id;
         this.commditiyTitle = commditiyTitle;
         this.originalPrice = originalPrice;
         this.priceCurrency = priceCurrency;
