@@ -16,11 +16,19 @@ import java.util.Map;
 public class SalesManagmentException extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CommodityNotFoundException.class)
-    public ResponseEntity<Object> handleCityNotFoundException( CommodityNotFoundException ex, WebRequest request) {
+    public ResponseEntity<Object> handleCommodityNotFoundException( CommodityNotFoundException ex, WebRequest request) {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("message", "Commodity not found");
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(CartNotFoundException.class)
+    public ResponseEntity<Object> handleCCartNotFoundException( CartNotFoundException ex, WebRequest request) {
+
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", "Shopping Cart not found" );
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 

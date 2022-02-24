@@ -3,6 +3,7 @@ package com.interview.service;
 import com.interview.beans.cart.*;
 import com.interview.beans.discount.CartCommodityDiscountItemBean;
 import com.interview.beans.discount.CartDiscountSheetBean;
+import com.interview.customexception.CartNotFoundException;
 import com.interview.customexception.NegativePriceException;
 import com.interview.entity.*;
 import com.interview.repository.CartRepository;
@@ -186,7 +187,9 @@ public  class CartService implements CartRepository {
     }
 
     public Cart findByTitle(String title) {
-        return cartRepository.findByTitle(title);
+        Cart  cart = cartRepository.findByTitle(title);
+        if(Objects.isNull(cart)) throw new CartNotFoundException(title,"");
+        return cart;
     }
 
     @Override
