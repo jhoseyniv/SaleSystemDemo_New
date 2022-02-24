@@ -188,7 +188,7 @@ public  class CartService implements CartRepository {
 
     public Cart findByTitle(String title) {
         Cart  cart = cartRepository.findByTitle(title);
-        if(Objects.isNull(cart)) throw new CartNotFoundException(title,"");
+        if(Objects.isNull(cart)) throw new CartNotFoundException(title,"Cart Not Found");
         return cart;
     }
 

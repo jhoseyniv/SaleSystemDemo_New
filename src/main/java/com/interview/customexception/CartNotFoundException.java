@@ -5,8 +5,25 @@ public class CartNotFoundException extends  RuntimeException {
     private String cartTitle;
     private String  message;
 
-    public CartNotFoundException(String cartTitle, String message) {
-        super(String.format("Cart with title "+ cartTitle +" not found"));
+    public String getCartTitle() {
+        return cartTitle;
+    }
+
+    public void setCartTitle(String cartTitle) {
         this.cartTitle = cartTitle;
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public CartNotFoundException(String cartTitle, String message) {
+        this.cartTitle = cartTitle;
+        this.message =  message;
     }
 }

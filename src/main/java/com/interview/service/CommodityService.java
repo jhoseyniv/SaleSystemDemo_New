@@ -57,7 +57,7 @@ public  class CommodityService implements CommodityRepository {
     @Override
     public Commodity findByCommditiyTitle(String title) {
         Commodity commodity = commodityRepository.findByCommditiyTitle(title);
-        if(Objects.isNull(commodity)) throw new CommodityNotFoundException(title,"Not Found");
+        if(Objects.isNull(commodity)) throw new CommodityNotFoundException(title,"Commodity Not Found");
         return commodity;
     }
 

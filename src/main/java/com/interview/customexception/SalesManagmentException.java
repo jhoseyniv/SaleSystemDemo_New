@@ -20,7 +20,8 @@ public class SalesManagmentException extends ResponseEntityExceptionHandler {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
-        body.put("message", "Commodity not found");
+        body.put("message", ex.getMessage());
+        body.put("Commodity", ex.getCommodityTitle());
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(CartNotFoundException.class)
@@ -28,7 +29,8 @@ public class SalesManagmentException extends ResponseEntityExceptionHandler {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
-        body.put("message", "Shopping Cart not found" );
+        body.put("message", ex.getMessage() );
+        body.put("Cart", ex.getCartTitle() );
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
