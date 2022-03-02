@@ -1,18 +1,16 @@
-package com.interview.beans.commodity;
+package com.interview.dto.commodity;
 
-import org.springframework.stereotype.Component;
 
-@Component
-public class DiscountStrategyBean {
+public class DiscountStrategyDTO {
     private String strategyTitle;
     private String strategyMessage;
     private double newPrice;
     private String priceCurrency;
 
-    public DiscountStrategyBean() {
+    public DiscountStrategyDTO() {
     }
 
-    public DiscountStrategyBean(String strategyTitle, String strategyMessage, double newPrice,String priceCurrency) {
+    public DiscountStrategyDTO(String strategyTitle, String strategyMessage, double newPrice, String priceCurrency) {
         this.strategyTitle = strategyTitle;
         this.strategyMessage = strategyMessage;
         this.newPrice = newPrice;

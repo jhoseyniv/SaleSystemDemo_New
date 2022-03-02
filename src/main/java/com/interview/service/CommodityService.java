@@ -1,7 +1,7 @@
 package com.interview.service;
 
-import com.interview.beans.commodity.CommodityBean;
-import com.interview.beans.commodity.DiscountStrategyBean;
+import com.interview.dto.commodity.CommodityDTO;
+import com.interview.dto.commodity.DiscountStrategyDTO;
 import com.interview.customexception.CommodityNotFoundException;
 import com.interview.diccount.DiscountACommodity;
 import com.interview.diccount.GiftACommodity;
@@ -66,8 +66,8 @@ public  class CommodityService implements CommodityRepository {
         return commodityRepository.findByCommditiyTitleContaining(serachTerm);
     }
 
-    public CommodityBean calcualtCommdityDsicounts(Commodity commodity) {
-        List<DiscountStrategyBean> strategydicuontMeets = new ArrayList<DiscountStrategyBean>();
+    public CommodityDTO calcualtCommdityDsicounts(Commodity commodity) {
+        List<DiscountStrategyDTO> strategydicuontMeets = new ArrayList<DiscountStrategyDTO>();
 
         Collection<CommodityDiscountStrategy> commodityDiscountStrategies = commodity.getCommodityDiscountStrategies();
         Iterator<CommodityDiscountStrategy> itr = commodityDiscountStrategies.iterator();
@@ -75,17 +75,17 @@ public  class CommodityService implements CommodityRepository {
             CommodityDiscountStrategy strategy = itr.next();
             if(strategy.getDiscountStrategy().getStrategyType().equalsIgnoreCase(StrategyTypes.DISCOUNT.toString())){
                 StrategyContext discountStrategy = new StrategyContext(new DiscountACommodity());
-                DiscountStrategyBean discountStrategyBean = discountStrategy.applyStrategy(commodity,strategy);
+                DiscountStrategyDTO discountStrategyBean = discountStrategy.applyStrategy(commodity,strategy);
                 strategydicuontMeets.add(discountStrategyBean);
             }
             if(strategy.getDiscountStrategy().getStrategyType().equalsIgnoreCase(StrategyTypes.GIFT.toString())) {
                 StrategyContext giftStrategy = new StrategyContext(new GiftACommodity());
-                DiscountStrategyBean  giftStrategyBean  = giftStrategy.applyStrategy(commodity,strategy);
+                DiscountStrategyDTO giftStrategyBean  = giftStrategy.applyStrategy(commodity,strategy);
                 strategydicuontMeets.add(giftStrategyBean);
             }
         }
 
-        CommodityBean commodityBean = new CommodityBean(commodity.getId(),commodity.getCommditiyTitle(),commodity.getPrice() , commodity.getPriceCurrency(),  strategydicuontMeets) ;
+        CommodityDTO commodityBean = new CommodityDTO(commodity.getId(),commodity.getCommditiyTitle(),commodity.getPrice() , commodity.getPriceCurrency(),  strategydicuontMeets) ;
 
         return commodityBean ;
     }

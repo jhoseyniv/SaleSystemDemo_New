@@ -1,16 +1,14 @@
-package com.interview.beans.discount;
+package com.interview.dto.discount;
 
-import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 
-@Component
-public class CartDiscountSheetBean {
+public class CartDiscountSheetDTO {
     private String title;
     private String description;
     private ZonedDateTime createdDate;
-    private List<CartCommodityDiscountItemBean>  cartCommodityDiscountItems;
+    private List<CartCommodityDiscountItemDTO>  cartCommodityDiscountItems;
 
     public String getTitle() {
         return title;
@@ -36,18 +34,18 @@ public class CartDiscountSheetBean {
         this.createdDate = createdDate;
     }
 
-    public List<CartCommodityDiscountItemBean> getCartCommodityDiscountItems() {
+    public List<CartCommodityDiscountItemDTO> getCartCommodityDiscountItems() {
         return cartCommodityDiscountItems;
     }
 
-    public void setCartCommodityDiscountItems(List<CartCommodityDiscountItemBean> cartCommodityDiscountItems) {
+    public void setCartCommodityDiscountItems(List<CartCommodityDiscountItemDTO> cartCommodityDiscountItems) {
         this.cartCommodityDiscountItems = cartCommodityDiscountItems;
     }
 
-    public CartDiscountSheetBean() {
+    public CartDiscountSheetDTO() {
     }
 
-    public CartDiscountSheetBean(String title, String description, ZonedDateTime createdDate, List<CartCommodityDiscountItemBean> cartCommodityDiscountItems) {
+    public CartDiscountSheetDTO(String title, String description, ZonedDateTime createdDate, List<CartCommodityDiscountItemDTO> cartCommodityDiscountItems) {
         this.title = title;
         this.description = description;
         this.createdDate = createdDate;

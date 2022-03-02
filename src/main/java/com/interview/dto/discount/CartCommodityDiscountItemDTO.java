@@ -1,15 +1,10 @@
-package com.interview.beans.discount;
+package com.interview.dto.discount;
 
 import com.interview.entity.CartCommodity;
 import com.interview.entity.CommodityDiscountStrategy;
-import org.springframework.stereotype.Component;
-
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
-@Component
-public class CartCommodityDiscountItemBean {
+public class CartCommodityDiscountItemDTO {
     private Long commodityId;
     private String commditiyTitle;
     private double originalPrice;
@@ -99,12 +94,12 @@ public class CartCommodityDiscountItemBean {
         this.minNumberOfCommdityMeetDiscount = minNumberOfCommdityMeetDiscount;
     }
 
-    public CartCommodityDiscountItemBean() {
+    public CartCommodityDiscountItemDTO() {
     }
 
-    public CartCommodityDiscountItemBean(Long commodityId, String commditiyTitle, double originalPrice, String priceCurrency,
-                                         long numberOfCommodityOrdered, double totalPriceWithoutDiscount,
-                                         String strategyTitle, String strategyType, Long strategyAchivement,Long minNumberOfCommdityMeetDiscount) {
+    public CartCommodityDiscountItemDTO(Long commodityId, String commditiyTitle, double originalPrice, String priceCurrency,
+                                        long numberOfCommodityOrdered, double totalPriceWithoutDiscount,
+                                        String strategyTitle, String strategyType, Long strategyAchivement, Long minNumberOfCommdityMeetDiscount) {
         this.commodityId = commodityId;
         this.commditiyTitle = commditiyTitle;
         this.originalPrice = originalPrice;
@@ -116,7 +111,7 @@ public class CartCommodityDiscountItemBean {
         this.strategyAchivement = strategyAchivement;
         this.minNumberOfCommdityMeetDiscount = minNumberOfCommdityMeetDiscount;
     }
-    public static CartCommodityDiscountItemBean getInstanceFromEntity(CartCommodity cartCommodity, List<CommodityDiscountStrategy> commodityDiscountStrategies) {
+    public static CartCommodityDiscountItemDTO getInstanceFromEntity(CartCommodity cartCommodity, List<CommodityDiscountStrategy> commodityDiscountStrategies) {
         String strategyTitle = "";
         String  strategyType = "";
         Long  strategyAchivement = 0L;
@@ -134,7 +129,7 @@ public class CartCommodityDiscountItemBean {
              strategyAchivement = commodityDiscountStrategies.get(0).getDiscountStrategy().getStrategyAchivement();
              minNumberOfCommdityMeetDiscount = commodityDiscountStrategies.get(0).getMinNumberOfCommdityMeetDiscount();
         }
-            return  new CartCommodityDiscountItemBean(commodityId,commditiyTitle,originalPrice,priceCurrency,numberOfCommodityOrdered,totalPriceWithoutDiscount,strategyTitle,strategyType,strategyAchivement,minNumberOfCommdityMeetDiscount);
+            return  new CartCommodityDiscountItemDTO(commodityId,commditiyTitle,originalPrice,priceCurrency,numberOfCommodityOrdered,totalPriceWithoutDiscount,strategyTitle,strategyType,strategyAchivement,minNumberOfCommdityMeetDiscount);
         }
 
     }

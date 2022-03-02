@@ -1,15 +1,13 @@
-package com.interview.beans.commodity;
+package com.interview.dto.commodity;
 
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
-public class CommodityBean {
+public class CommodityDTO {
 
     private Long id;
     private String commditiyTitle;
-    private List<DiscountStrategyBean> strategydicuontMeeted;
+    private List<DiscountStrategyDTO> strategydicuontMeeted;
 
     private double originalPrice;
 
@@ -24,11 +22,11 @@ public class CommodityBean {
         this.commditiyTitle = commditiyTitle;
     }
 
-    public List<DiscountStrategyBean> getStrategydicuontMeeted() {
+    public List<DiscountStrategyDTO> getStrategydicuontMeeted() {
         return strategydicuontMeeted;
     }
 
-    public void setStrategydicuontMeeted(List<DiscountStrategyBean> strategydicuontMeeted) {
+    public void setStrategydicuontMeeted(List<DiscountStrategyDTO> strategydicuontMeeted) {
         this.strategydicuontMeeted = strategydicuontMeeted;
     }
 
@@ -50,10 +48,10 @@ public class CommodityBean {
         this.priceCurrency = priceCurrency;
     }
 
-    public CommodityBean() {
+    public CommodityDTO() {
     }
 
-    public CommodityBean(Long id,String commditiyTitle,double originalPrice ,String priceCurrency, List<DiscountStrategyBean> strategies) {
+    public CommodityDTO(Long id, String commditiyTitle, double originalPrice , String priceCurrency, List<DiscountStrategyDTO> strategies) {
         this.id =id;
         this.commditiyTitle = commditiyTitle;
         this.originalPrice = originalPrice;

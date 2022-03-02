@@ -1,6 +1,6 @@
-package com.interview.beans.cart;
+package com.interview.dto.cart;
 
-public class PercentStrategyDiscountBean extends  CartDisountBean {
+public class PercentStrategyDiscountDTO extends CartDisountDTO {
     private Long commditiyId;
     private String commditiyTitle;
     private double originalPrice;
@@ -74,8 +74,8 @@ public class PercentStrategyDiscountBean extends  CartDisountBean {
         this.dicountPercent = dicountPercent;
     }
 
-    public PercentStrategyDiscountBean(Long commditiyId,String strategyTitle, Long minNumberOfCommdityMeetDiscount,Long dicountPercent , String commditiyTitle, double originalPrice,
-                                       String priceCurrency, double numberOfCommodityOrdered, double totalPriceWithoutDiscount,double totalPriceAfterDiscount) {
+    public PercentStrategyDiscountDTO(Long commditiyId, String strategyTitle, Long minNumberOfCommdityMeetDiscount, Long dicountPercent , String commditiyTitle, double originalPrice,
+                                      String priceCurrency, double numberOfCommodityOrdered, double totalPriceWithoutDiscount, double totalPriceAfterDiscount) {
         super(strategyTitle, minNumberOfCommdityMeetDiscount);
         this.commditiyId = commditiyId;
         this.commditiyTitle = commditiyTitle;

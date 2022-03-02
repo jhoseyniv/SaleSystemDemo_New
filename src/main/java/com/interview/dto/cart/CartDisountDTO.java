@@ -1,17 +1,15 @@
-package com.interview.beans.cart;
+package com.interview.dto.cart;
 
 
-import org.springframework.stereotype.Component;
 
-@Component
-public class CartDisountBean {
+public class CartDisountDTO {
     private String strategyTitle;
     private Long  minNumberOfCommdityMeetDiscount;
 
-    public CartDisountBean() {
+    public CartDisountDTO() {
     }
 
-    public CartDisountBean(String strategyTitle, Long minNumberOfCommdityMeetDiscount) {
+    public CartDisountDTO(String strategyTitle, Long minNumberOfCommdityMeetDiscount) {
         this.strategyTitle = strategyTitle;
         this.minNumberOfCommdityMeetDiscount = minNumberOfCommdityMeetDiscount;
     }

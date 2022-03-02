@@ -1,7 +1,7 @@
 package com.interview.api;
 
 import com.interview.entity.Commodity;
-import com.interview.beans.commodity.CommodityBean;
+import com.interview.dto.commodity.CommodityDTO;
 import com.interview.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -34,9 +34,9 @@ public class CommodityConroller {
     }
 
     @GetMapping( "/titles/{title}")
-    public CommodityBean getCommodityByTitle(@PathVariable String title) {
+    public CommodityDTO getCommodityByTitle(@PathVariable String title) {
         Commodity commodity = commodityService.findByCommditiyTitle(title);
-        CommodityBean commodityBean= commodityService.calcualtCommdityDsicounts(commodity);
+        CommodityDTO commodityBean= commodityService.calcualtCommdityDsicounts(commodity);
         return commodityBean;
     }
 

@@ -117,7 +117,7 @@ public class SaleSystemDemoApplication {
 			cartCommodityService.save(shoeItem2);
 
 			CartCommodity hatItem2= new CartCommodity(hat,orderReza,10L);
-			cartCommodityService.save(hatItem2);
+			cartCommodityService.saveAndFlush(hatItem2);
 
 			DiscountStrategy giftAHatStrategy = new DiscountStrategy("Gift a Hat to client if buy 1 shirt and 2 pants",StrategyTypes.GIFT.toString(),1L,null,startDate,endDate);
 			DiscountStrategy giftAHatStrategyIfFiveHat = new DiscountStrategy("Gift 2 Hats to client if buy a 5 hat ",StrategyTypes.GIFT.toString(),2L,null,startDate,endDate);

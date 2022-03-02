@@ -1,10 +1,8 @@
-package com.interview.beans.cart;
+package com.interview.dto.cart;
 
 import com.interview.entity.CartCommodity;
-import org.springframework.stereotype.Component;
 
-@Component
-public class CartCommodityBean {
+public class CartCommodityDTO {
     private String commditiyTitle;
     private double originalPrice;
     private String priceCurrency;
@@ -60,11 +58,11 @@ public class CartCommodityBean {
         this.totalPriceWithoutDiscount = totalPriceWithoutDiscount;
     }
 
-    public CartCommodityBean() {
+    public CartCommodityDTO() {
     }
 
-    public CartCommodityBean(String commditiyTitle, double originalPrice, String priceCurrency,
-                             long numberOfCommodityOrdered, double totalPriceWithoutDiscount, String description) {
+    public CartCommodityDTO(String commditiyTitle, double originalPrice, String priceCurrency,
+                            long numberOfCommodityOrdered, double totalPriceWithoutDiscount, String description) {
         this.commditiyTitle = commditiyTitle;
         this.originalPrice = originalPrice;
         this.priceCurrency = priceCurrency;
@@ -73,12 +71,12 @@ public class CartCommodityBean {
         this.description = description;
     }
 
-    public static  CartCommodityBean getInstanceFromEntity(CartCommodity cartCommodity){
+    public static CartCommodityDTO getInstanceFromEntity(CartCommodity cartCommodity){
         String commditiyTitle = cartCommodity.getCommodity().getCommditiyTitle();
         double originalPrice = cartCommodity.getCommodity().getPrice();
         String priceCurrency = cartCommodity.getCommodity().getPriceCurrency();
         long   numberOfCommodityOrdered = cartCommodity.getNumberOfCommodityOrdered();
         double totalPriceWithoutDiscount = originalPrice * numberOfCommodityOrdered;
-        return  new CartCommodityBean(commditiyTitle,originalPrice,priceCurrency,numberOfCommodityOrdered,totalPriceWithoutDiscount,"");
+        return  new CartCommodityDTO(commditiyTitle,originalPrice,priceCurrency,numberOfCommodityOrdered,totalPriceWithoutDiscount,"");
     }
 }

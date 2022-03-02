@@ -1,26 +1,23 @@
-package com.interview.beans.cart;
-
-import org.springframework.stereotype.Component;
+package com.interview.dto.cart;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 
-@Component
-public class ShoppingCartBean {
+public class ShoppingCartDTO {
     private String title;
     private String description;
     private ZonedDateTime createdDate;
-    private List<CartCommodityBean> cartCommodityBeanList;
-    private List<GiftStrategyDiscountBean> giftStrategyDiscountBeanList;
-    private List<PercentStrategyDiscountBean> percentStrategyDiscountBeanList;
+    private List<CartCommodityDTO> cartCommodityBeanList;
+    private List<GiftStrategyDiscountDTO> giftStrategyDiscountBeanList;
+    private List<PercentStrategyDiscountDTO> percentStrategyDiscountBeanList;
 
     private String status;
 
-    public List<CartCommodityBean> getCartCommodityBeanList() {
+    public List<CartCommodityDTO> getCartCommodityBeanList() {
         return cartCommodityBeanList;
     }
 
-    public void setCartCommodityBeanList(List<CartCommodityBean> cartCommodityBeanList) {
+    public void setCartCommodityBeanList(List<CartCommodityDTO> cartCommodityBeanList) {
         this.cartCommodityBeanList = cartCommodityBeanList;
     }
 
@@ -48,7 +45,7 @@ public class ShoppingCartBean {
         this.createdDate = createdDate;
     }
 
-    public ShoppingCartBean() {
+    public ShoppingCartDTO() {
     }
 
     public String getStatus() {
@@ -59,23 +56,23 @@ public class ShoppingCartBean {
         this.status = status;
     }
 
-    public List<GiftStrategyDiscountBean> getGiftStrategyDiscountBeanList() {
+    public List<GiftStrategyDiscountDTO> getGiftStrategyDiscountBeanList() {
         return giftStrategyDiscountBeanList;
     }
 
-    public void setGiftStrategyDiscountBeanList(List<GiftStrategyDiscountBean> giftStrategyDiscountBeanList) {
+    public void setGiftStrategyDiscountBeanList(List<GiftStrategyDiscountDTO> giftStrategyDiscountBeanList) {
         this.giftStrategyDiscountBeanList = giftStrategyDiscountBeanList;
     }
 
-    public List<PercentStrategyDiscountBean> getPercentStrategyDiscountBeanList() {
+    public List<PercentStrategyDiscountDTO> getPercentStrategyDiscountBeanList() {
         return percentStrategyDiscountBeanList;
     }
 
-    public void setPercentStrategyDiscountBeanList(List<PercentStrategyDiscountBean> percentStrategyDiscountBeanList) {
+    public void setPercentStrategyDiscountBeanList(List<PercentStrategyDiscountDTO> percentStrategyDiscountBeanList) {
         this.percentStrategyDiscountBeanList = percentStrategyDiscountBeanList;
     }
 
-    public ShoppingCartBean(String title, String description, ZonedDateTime createdDate, List<CartCommodityBean> cartCommodityBeanList, List<GiftStrategyDiscountBean> giftStrategyDiscountBeanList, List<PercentStrategyDiscountBean> percentStrategyDiscountBeanList, String status) {
+    public ShoppingCartDTO(String title, String description, ZonedDateTime createdDate, List<CartCommodityDTO> cartCommodityBeanList, List<GiftStrategyDiscountDTO> giftStrategyDiscountBeanList, List<PercentStrategyDiscountDTO> percentStrategyDiscountBeanList, String status) {
         this.title = title;
         this.description = description;
         this.createdDate = createdDate;

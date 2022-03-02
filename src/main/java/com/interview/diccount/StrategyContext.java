@@ -1,6 +1,6 @@
 package com.interview.diccount;
 
-import com.interview.beans.commodity.DiscountStrategyBean;
+import com.interview.dto.commodity.DiscountStrategyDTO;
 import com.interview.entity.Commodity;
 import com.interview.entity.CommodityDiscountStrategy;
 
@@ -11,7 +11,7 @@ public class StrategyContext {
         this.strategy = strategy;
     }
 
-    public DiscountStrategyBean applyStrategy(Commodity commodity, CommodityDiscountStrategy discountStrategy) {
+    public DiscountStrategyDTO applyStrategy(Commodity commodity, CommodityDiscountStrategy discountStrategy) {
         return  strategy.dicountCalculation(commodity,discountStrategy);
     }
 }

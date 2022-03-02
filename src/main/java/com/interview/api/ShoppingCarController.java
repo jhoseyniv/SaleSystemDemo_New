@@ -1,14 +1,11 @@
 package com.interview.api;
 
-import com.interview.beans.cart.GiftStrategyDiscountBean;
-import com.interview.beans.cart.PercentStrategyDiscountBean;
-import com.interview.beans.cart.ShoppingCartBean;
-import com.interview.beans.discount.CartDiscountSheetBean;
+import com.interview.dto.cart.GiftStrategyDiscountDTO;
+import com.interview.dto.cart.PercentStrategyDiscountDTO;
+import com.interview.dto.cart.ShoppingCartDTO;
+import com.interview.dto.discount.CartDiscountSheetDTO;
 import com.interview.customexception.NegativePriceException;
-import com.interview.customexception.SalesManagmentException;
 import com.interview.entity.Cart;
-import com.interview.entity.CartCommodity;
-import com.interview.entity.Commodity;
 import com.interview.service.CartCommodityService;
 import com.interview.service.CartService;
 import com.interview.service.CommodityService;
@@ -17,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 
 @RestController
@@ -43,8 +38,8 @@ public class ShoppingCarController {
 
     @RequestMapping(value = "/{title}", method = RequestMethod.GET)
     @ResponseBody
-    public ShoppingCartBean getShoppingCartBean(@PathVariable String title) throws NegativePriceException {
-        ShoppingCartBean shoppingCartBean = new ShoppingCartBean();
+    public ShoppingCartDTO getShoppingCartBean(@PathVariable String title) throws NegativePriceException {
+        ShoppingCartDTO shoppingCartBean = new ShoppingCartDTO();
         Cart cart = cartService.findByTitle(title);
         shoppingCartBean = cartService.getShoppingCartWithDsicounts(cart);
         return shoppingCartBean;
@@ -52,8 +47,8 @@ public class ShoppingCarController {
 
     @RequestMapping(value = "/sheet/{title}", method = RequestMethod.GET)
     @ResponseBody
-    public CartDiscountSheetBean getCartDiscountSheettBean(@PathVariable String title) {
-        CartDiscountSheetBean cartDiscountSheetBean = new CartDiscountSheetBean();
+    public CartDiscountSheetDTO getCartDiscountSheettBean(@PathVariable String title) {
+        CartDiscountSheetDTO cartDiscountSheetBean = new CartDiscountSheetDTO();
         Cart cart = cartService.findByTitle(title);
         cartDiscountSheetBean = cartService.getCartDiscountSheetFromCart(cart);
         return cartDiscountSheetBean;
@@ -61,30 +56,30 @@ public class ShoppingCarController {
 
     @RequestMapping(value = "/discounts/{title}", method = RequestMethod.GET)
     @ResponseBody
-    public List<PercentStrategyDiscountBean> getCartDiscountItems(@PathVariable String title) throws NegativePriceException {
+    public List<PercentStrategyDiscountDTO> getCartDiscountItems(@PathVariable String title) throws NegativePriceException {
         Cart cart = cartService.findByTitle(title);
-        CartDiscountSheetBean discountSheet = new CartDiscountSheetBean();
+        CartDiscountSheetDTO discountSheet = new CartDiscountSheetDTO();
         discountSheet = cartService.getCartDiscountSheetFromCart(cart);
-        List<PercentStrategyDiscountBean> discountPercentItems =cartService.getCartPercentDiscounts(discountSheet);
+        List<PercentStrategyDiscountDTO> discountPercentItems =cartService.getCartPercentDiscounts(discountSheet);
         return discountPercentItems;
     }
 
     @RequestMapping(value = "/gifts/{title}", method = RequestMethod.GET)
     @ResponseBody
-    public List<GiftStrategyDiscountBean> getCartGiftItems(@PathVariable String title) throws NegativePriceException {
+    public List<GiftStrategyDiscountDTO> getCartGiftItems(@PathVariable String title) throws NegativePriceException {
         Cart cart = cartService.findByTitle(title);
-        CartDiscountSheetBean discountSheet = new CartDiscountSheetBean();
+        CartDiscountSheetDTO discountSheet = new CartDiscountSheetDTO();
         discountSheet = cartService.getCartDiscountSheetFromCart(cart);
-        List<GiftStrategyDiscountBean> giftItems =cartService.getCartGiftDiscounts(discountSheet);
+        List<GiftStrategyDiscountDTO> giftItems =cartService.getCartGiftDiscounts(discountSheet);
         return giftItems;
     }
 
     @Transactional
     @RequestMapping(value = "/add/{numberOfCommodity}/{commodityTitle}/to/{cartTitle}", method = { RequestMethod.GET, RequestMethod.POST })
-    public ShoppingCartBean addCommodityToOrder(@PathVariable Long numberOfCommodity , @PathVariable String commodityTitle, @PathVariable String cartTitle)  {
+    public ShoppingCartDTO addCommodityToOrder(@PathVariable Long numberOfCommodity , @PathVariable String commodityTitle, @PathVariable String cartTitle)  {
         cartCommodityService.saveorUpdate(cartTitle,commodityTitle,numberOfCommodity);
         Cart updateShoppingCart = cartService.findByTitle(cartTitle);
-        ShoppingCartBean shoppingCartBean = cartService.getShoppingCartWithDsicounts(updateShoppingCart);
+        ShoppingCartDTO shoppingCartBean = cartService.getShoppingCartWithDsicounts(updateShoppingCart);
         return shoppingCartBean;
     }
 

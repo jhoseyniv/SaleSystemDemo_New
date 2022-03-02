@@ -1,10 +1,10 @@
 
-package com.interview.beans.cart;
+package com.interview.dto.cart;
 
 
 import java.util.List;
 
-public class GiftStrategyDiscountBean  extends  CartDisountBean{
+public class GiftStrategyDiscountDTO extends CartDisountDTO {
     private Long    commoditytHaveToGiftId;
     private String  mameOfCommoditytHaveToGift;
     private List<String>  relatedCommodity;
@@ -33,10 +33,10 @@ public class GiftStrategyDiscountBean  extends  CartDisountBean{
         this.relatedCommodity = relatedCommodity;
     }
 
-    public GiftStrategyDiscountBean() {
+    public GiftStrategyDiscountDTO() {
     }
 
-    public GiftStrategyDiscountBean(String strategyTitle, Long minNumberOfCommdityMeetDiscount, Long commoditytHaveToGiftId, String mameOfCommoditytHaveToGift, List<String> relatedCommodity) {
+    public GiftStrategyDiscountDTO(String strategyTitle, Long minNumberOfCommdityMeetDiscount, Long commoditytHaveToGiftId, String mameOfCommoditytHaveToGift, List<String> relatedCommodity) {
         super(strategyTitle, minNumberOfCommdityMeetDiscount);
         this.commoditytHaveToGiftId = commoditytHaveToGiftId;
         this.mameOfCommoditytHaveToGift = mameOfCommoditytHaveToGift;
