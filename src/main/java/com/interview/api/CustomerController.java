@@ -17,4 +17,10 @@ public class CustomerController {
     public Iterable<Customer> getAllCustomers(){
           return   customerService.findAll();
     }
+
+//    @GetMapping("/stream")
+//    public Flux<Customer> getAllCustomersStream(){
+//        return   customerService.findAll();
+//    }
+
 }
