@@ -7,7 +7,9 @@ import com.interview.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 @Service
@@ -45,6 +47,10 @@ public  class CustomerService implements CustomerRepository {
     public Iterable<Customer> findAll() {
         return customerRepository.findAll();
     }
+//    public Flux<Customer> findAllByStream() {
+//        Flux<Customer> customerFlux = Flux.fromIterable(customerRepository.findAll());
+//        return customerFlux;
+//    }
 
     @Override
     public Iterable<Customer> findAllById(Iterable<Long> iterable) {
