@@ -43,7 +43,7 @@ public  class CustomerService implements CustomerRepository {
 
     @Override
     public Iterable<Customer> findAll() {
-        return null;
+        return customerRepository.findAll();
     }
 
     @Override

@@ -75,7 +75,11 @@ public class SaleSystemDemoApplication {
 			Customer reza = new Customer("reza","saeedi","reze_2020","12345",null);
 			customerRepository.save(ali);
 			customerRepository.save(reza);
+			 for (int i=0; i<50; i++){
+				 Customer customer = new Customer("ali"+i,"saeedi"+i,"ali_2000"+i,"12345",null);
+				 customerRepository.save(customer);
 
+			 }
 
 			Commodity hat = new Commodity("hat",10d,"krona",null,null,null);
 			Commodity shirt = new Commodity("shirt",20d,"krona",null,null,null);
