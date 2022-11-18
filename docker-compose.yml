@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  discount_api:
+    image: 'dicsount_system'
+    ports:
+      - "8080:8080"
+    depends_on:
+      - discont_db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://172.17.0.1:5432/sale_management
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+
+  discont_db:
+    container_name: postgres_db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: sale_management
+    ports:
+      - "5432:5432"
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
