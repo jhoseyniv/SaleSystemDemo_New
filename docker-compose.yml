@@ -1,6 +1,7 @@
 version: '3.8'
 services:
   discount_api:
+    build: .
     image: 'dicsount_system'
     ports:
       - "8080:8080"
