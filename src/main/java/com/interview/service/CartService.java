@@ -63,7 +63,7 @@ public  class CartService implements CartRepository {
 
 
     public ShoppingCartDTO getShoppingCartWithDsicounts(Cart cart) throws NegativePriceException {
-        List<CartCommodityDTO> cartCommodityBeanList = getCartCommodities(cart);
+        List<OrderedCommodityDTO> cartCommodityBeanList = getCartCommodities(cart);
 
         CartDiscountSheetDTO discountSheet = new CartDiscountSheetDTO();
 
@@ -76,11 +76,11 @@ public  class CartService implements CartRepository {
      return shoppingCartBean;
     }
 
-    public  List<CartCommodityDTO> getCartCommodities(Cart cart) {
-        List<CartCommodityDTO> cartCommodityBeanList = new ArrayList<CartCommodityDTO>();
+    public  List<OrderedCommodityDTO> getCartCommodities(Cart cart) {
+        List<OrderedCommodityDTO> cartCommodityBeanList = new ArrayList<OrderedCommodityDTO>();
         List<CartCommodity> cartCommodities = cart.getCartCommodities();
         for(CartCommodity cartCommodity : cartCommodities ){
-            CartCommodityDTO cartCommodityBean = CartCommodityDTO.getInstanceFromEntity(cartCommodity);
+            OrderedCommodityDTO cartCommodityBean = OrderedCommodityDTO.getInstanceFromEntity(cartCommodity);
             cartCommodityBeanList.add(cartCommodityBean);
         }
         return cartCommodityBeanList;

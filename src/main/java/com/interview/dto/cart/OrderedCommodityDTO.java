@@ -2,7 +2,7 @@ package com.interview.dto.cart;
 
 import com.interview.entity.CartCommodity;
 
-public class CartCommodityDTO {
+public class OrderedCommodityDTO {
     private String commditiyTitle;
     private double originalPrice;
     private String priceCurrency;
@@ -58,11 +58,11 @@ public class CartCommodityDTO {
         this.totalPriceWithoutDiscount = totalPriceWithoutDiscount;
     }
 
-    public CartCommodityDTO() {
+    public OrderedCommodityDTO() {
     }
 
-    public CartCommodityDTO(String commditiyTitle, double originalPrice, String priceCurrency,
-                            long numberOfCommodityOrdered, double totalPriceWithoutDiscount, String description) {
+    public OrderedCommodityDTO(String commditiyTitle, double originalPrice, String priceCurrency,
+                               long numberOfCommodityOrdered, double totalPriceWithoutDiscount, String description) {
         this.commditiyTitle = commditiyTitle;
         this.originalPrice = originalPrice;
         this.priceCurrency = priceCurrency;
@@ -71,12 +71,12 @@ public class CartCommodityDTO {
         this.description = description;
     }
 
-    public static CartCommodityDTO getInstanceFromEntity(CartCommodity cartCommodity){
+    public static OrderedCommodityDTO getInstanceFromEntity(CartCommodity cartCommodity){
         String commditiyTitle = cartCommodity.getCommodity().getCommditiyTitle();
         double originalPrice = cartCommodity.getCommodity().getPrice();
         String priceCurrency = cartCommodity.getCommodity().getPriceCurrency();
         long   numberOfCommodityOrdered = cartCommodity.getNumberOfCommodityOrdered();
         double totalPriceWithoutDiscount = originalPrice * numberOfCommodityOrdered;
-        return  new CartCommodityDTO(commditiyTitle,originalPrice,priceCurrency,numberOfCommodityOrdered,totalPriceWithoutDiscount,"");
+        return  new OrderedCommodityDTO(commditiyTitle,originalPrice,priceCurrency,numberOfCommodityOrdered,totalPriceWithoutDiscount,"");
     }
 }
