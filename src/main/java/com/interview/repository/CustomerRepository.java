@@ -4,7 +4,6 @@ import com.interview.entity.Commodity;
 import com.interview.entity.Customer;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import reactor.core.publisher.Flux;
 
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
