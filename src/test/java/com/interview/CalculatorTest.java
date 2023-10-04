@@ -15,4 +15,5 @@ public class CalculatorTest {
         assertEquals(60.6,result2,1);
 
     }
+
 }
